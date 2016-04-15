@@ -1,0 +1,4 @@
+rootProject.name = 'uliketu'
+include 'uliketu-service-api'
+include 'uliketu-service'
+include 'uliketu-webapp'

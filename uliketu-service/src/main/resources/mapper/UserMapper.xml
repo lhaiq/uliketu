@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.uliketu.core.repository.UserRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.uliketu.core.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="mail" property="mail" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="block_balance" property="blockBalance" jdbcType="BIGINT" />
+    <result column="idnumber" property="idnumber" jdbcType="VARCHAR" />
+    <result column="idphoto" property="idphoto" jdbcType="VARCHAR" />
+    <result column="black_status" property="blackStatus" jdbcType="INTEGER" />
+    <result column="certifie" property="certifie" jdbcType="INTEGER" />
+    <result column="baifubao_account" property="baifubaoAccount" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="random_id" property="randomId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, mail, phone, avatar, balance, block_balance, idnumber, idphoto, 
+    black_status, certifie, baifubao_account, register_time, nickname, random_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.uliketu.core.entity.User" >
+    insert into user (id, username, password, 
+      mail, phone, avatar, 
+      balance, block_balance, idnumber, 
+      idphoto, black_status, certifie, 
+      baifubao_account, register_time, nickname, 
+      random_id)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=BIGINT}, #{blockBalance,jdbcType=BIGINT}, #{idnumber,jdbcType=VARCHAR}, 
+      #{idphoto,jdbcType=VARCHAR}, #{blackStatus,jdbcType=INTEGER}, #{certifie,jdbcType=INTEGER}, 
+      #{baifubaoAccount,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR}, 
+      #{randomId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="mail != null" >
+        mail,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="blockBalance != null" >
+        block_balance,
+      </if>
+      <if test="idnumber != null" >
+        idnumber,
+      </if>
+      <if test="idphoto != null" >
+        idphoto,
+      </if>
+      <if test="blackStatus != null" >
+        black_status,
+      </if>
+      <if test="certifie != null" >
+        certifie,
+      </if>
+      <if test="baifubaoAccount != null" >
+        baifubao_account,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="randomId != null" >
+        random_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="blockBalance != null" >
+        #{blockBalance,jdbcType=BIGINT},
+      </if>
+      <if test="idnumber != null" >
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idphoto != null" >
+        #{idphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="blackStatus != null" >
+        #{blackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="certifie != null" >
+        #{certifie,jdbcType=INTEGER},
+      </if>
+      <if test="baifubaoAccount != null" >
+        #{baifubaoAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="randomId != null" >
+        #{randomId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.core.entity.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="blockBalance != null" >
+        block_balance = #{blockBalance,jdbcType=BIGINT},
+      </if>
+      <if test="idnumber != null" >
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idphoto != null" >
+        idphoto = #{idphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="blackStatus != null" >
+        black_status = #{blackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="certifie != null" >
+        certifie = #{certifie,jdbcType=INTEGER},
+      </if>
+      <if test="baifubaoAccount != null" >
+        baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="randomId != null" >
+        random_id = #{randomId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.core.entity.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=BIGINT},
+      block_balance = #{blockBalance,jdbcType=BIGINT},
+      idnumber = #{idnumber,jdbcType=VARCHAR},
+      idphoto = #{idphoto,jdbcType=VARCHAR},
+      black_status = #{blackStatus,jdbcType=INTEGER},
+      certifie = #{certifie,jdbcType=INTEGER},
+      baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      random_id = #{randomId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.User" >
+    select count(*) from user
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="username != null" >
+        and username = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null" >
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="mail != null" >
+        and mail = #{mail,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="avatar != null" >
+        and avatar = #{avatar,jdbcType=VARCHAR}
+      </if>
+      <if test="balance != null" >
+        and balance = #{balance,jdbcType=BIGINT}
+      </if>
+      <if test="blockBalance != null" >
+        and block_balance = #{blockBalance,jdbcType=BIGINT}
+      </if>
+      <if test="idnumber != null" >
+        and idnumber = #{idnumber,jdbcType=VARCHAR}
+      </if>
+      <if test="idphoto != null" >
+        and idphoto = #{idphoto,jdbcType=VARCHAR}
+      </if>
+      <if test="blackStatus != null" >
+        and black_status = #{blackStatus,jdbcType=INTEGER}
+      </if>
+      <if test="certifie != null" >
+        and certifie = #{certifie,jdbcType=INTEGER}
+      </if>
+      <if test="baifubaoAccount != null" >
+        and baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="registerTime != null" >
+        and register_time = #{registerTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="nickname != null" >
+        and nickname = #{nickname,jdbcType=VARCHAR}
+      </if>
+      <if test="randomId != null" >
+        and random_id = #{randomId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from user where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.username != null" >
+      and username = #{param1.username,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.password != null" >
+      and password = #{param1.password,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.mail != null" >
+      and mail = #{param1.mail,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.phone != null" >
+      and phone = #{param1.phone,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.avatar != null" >
+      and avatar = #{param1.avatar,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.balance != null" >
+      and balance = #{param1.balance,jdbcType=BIGINT}
+    </if>
+    <if test="param1.blockBalance != null" >
+      and block_balance = #{param1.blockBalance,jdbcType=BIGINT}
+    </if>
+    <if test="param1.idnumber != null" >
+      and idnumber = #{param1.idnumber,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.idphoto != null" >
+      and idphoto = #{param1.idphoto,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.blackStatus != null" >
+      and black_status = #{param1.blackStatus,jdbcType=INTEGER}
+    </if>
+    <if test="param1.certifie != null" >
+      and certifie = #{param1.certifie,jdbcType=INTEGER}
+    </if>
+    <if test="param1.baifubaoAccount != null" >
+      and baifubao_account = #{param1.baifubaoAccount,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.registerTime != null" >
+      and register_time = #{param1.registerTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.nickname != null" >
+      and nickname = #{param1.nickname,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.randomId != null" >
+      and random_id = #{param1.randomId,jdbcType=VARCHAR}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

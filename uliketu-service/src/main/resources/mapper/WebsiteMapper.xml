@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.uliketu.core.repository.WebsiteRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.uliketu.core.entity.Website" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="icp" property="icp" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="statistic_code" property="statisticCode" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, keywords, icp, version, description, statistic_code, domain, status, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from website
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from website
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.uliketu.core.entity.Website" >
+    insert into website (id, name, keywords, 
+      icp, version, description, 
+      statistic_code, domain, status, 
+      type)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{icp,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{statisticCode,jdbcType=VARCHAR}, #{domain,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.Website" >
+    insert into website
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="icp != null" >
+        icp,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="statisticCode != null" >
+        statistic_code,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="icp != null" >
+        #{icp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticCode != null" >
+        #{statisticCode,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.core.entity.Website" >
+    update website
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="icp != null" >
+        icp = #{icp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticCode != null" >
+        statistic_code = #{statisticCode,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.core.entity.Website" >
+    update website
+    set name = #{name,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      icp = #{icp,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      statistic_code = #{statisticCode,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Website" >
+    select count(*) from website
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="keywords != null" >
+        and keywords = #{keywords,jdbcType=VARCHAR}
+      </if>
+      <if test="icp != null" >
+        and icp = #{icp,jdbcType=VARCHAR}
+      </if>
+      <if test="version != null" >
+        and version = #{version,jdbcType=VARCHAR}
+      </if>
+      <if test="description != null" >
+        and description = #{description,jdbcType=VARCHAR}
+      </if>
+      <if test="statisticCode != null" >
+        and statistic_code = #{statisticCode,jdbcType=VARCHAR}
+      </if>
+      <if test="domain != null" >
+        and domain = #{domain,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from website where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.name != null" >
+      and name = #{param1.name,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.keywords != null" >
+      and keywords = #{param1.keywords,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.icp != null" >
+      and icp = #{param1.icp,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.version != null" >
+      and version = #{param1.version,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.description != null" >
+      and description = #{param1.description,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.statisticCode != null" >
+      and statistic_code = #{param1.statisticCode,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.domain != null" >
+      and domain = #{param1.domain,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.status != null" >
+      and status = #{param1.status,jdbcType=INTEGER}
+    </if>
+    <if test="param1.type != null" >
+      and type = #{param1.type,jdbcType=INTEGER}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>
