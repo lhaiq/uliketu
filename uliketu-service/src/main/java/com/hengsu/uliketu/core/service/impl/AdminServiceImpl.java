@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(AdminModel adminModel) {
+	public long selectCount(AdminModel adminModel) {
 		return adminRepo.selectCount(beanMapper.map(adminModel, Admin.class));
 	}
 

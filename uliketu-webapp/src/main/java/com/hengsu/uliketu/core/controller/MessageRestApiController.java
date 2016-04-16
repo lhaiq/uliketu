@@ -29,56 +29,59 @@ import java.util.List;
 @RequestMapping("/uliketu")
 public class MessageRestApiController {
 
-	private final Logger logger = LoggerFactory.getLogger(MessageRestApiController.class);
-	
-	@Autowired
-	private BeanMapper beanMapper;
-	
-	@Autowired
-	private MessageService messageService;
+    private final Logger logger = LoggerFactory.getLogger(MessageRestApiController.class);
 
-	/**
-	 * 获取单条消息
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/message/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ResponseEnvelope<MessageVO>> getMessageById(@PathVariable Long id){
-		MessageModel messageModel = messageService.findByPrimaryKey(id);
-		MessageVO messageVO =beanMapper.map(messageModel, MessageVO.class);
-		ResponseEnvelope<MessageVO> responseEnv = new ResponseEnvelope<MessageVO>(messageVO);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
+    @Autowired
+    private BeanMapper beanMapper;
 
-	/**
-	 * 获取某个用户的消息
-	 * @param userId
-	 * @param pageable
-	 * @return
-	 */
-	@RequestMapping(value = "/messages", method = RequestMethod.GET)
-	public ResponseEntity<ResponseEnvelope<Page<MessageModel>>> getMessages(@Value("#{request.getAttribute('userId')}") Long userId,
-																   Pageable pageable){
-		MessageModel param = new MessageModel();
-		param.setUserId(userId);
-		List<MessageModel> messageModes = messageService.selectPage(param,pageable);
-		long count = messageService.selectCount(param);
-		Page<MessageModel> page = new PageImpl<>(messageModes,pageable,count);
-		ResponseEnvelope<Page<MessageModel>> responseEnv = new ResponseEnvelope<>(page);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
+    @Autowired
+    private MessageService messageService;
 
-	/**
-	 * 该消息已读
-	 * @param userId
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/message/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ResponseEnvelope<String>> readMessage(@Value("#{request.getAttribute('userId')}") Long userId,
-																			@PathVariable Long id){messageService.readMessage(id, userId);
-		messageService.readMessage(id,userId);
-		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
+    /**
+     * 获取单条消息
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/message/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseEnvelope<MessageVO>> getMessageById(@PathVariable Long id) {
+        MessageModel messageModel = messageService.findByPrimaryKey(id);
+        MessageVO messageVO = beanMapper.map(messageModel, MessageVO.class);
+        ResponseEnvelope<MessageVO> responseEnv = new ResponseEnvelope<>(messageVO, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+    /**
+     * 获取自己的消息
+     *
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    public ResponseEntity<ResponseEnvelope<Page<MessageModel>>> getMessages(@Value("#{request.getAttribute('userId')}") Long userId,
+                                                                            Pageable pageable) {
+        MessageModel param = new MessageModel();
+        param.setUserId(userId);
+        List<MessageModel> messageModes = messageService.selectPage(param, pageable);
+        long count = messageService.selectCount(param);
+        Page<MessageModel> page = new PageImpl<>(messageModes, pageable, count);
+        ResponseEnvelope<Page<MessageModel>> responseEnv = new ResponseEnvelope<>(page, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+    /**
+     * 该消息已读
+     *
+     * @param userId
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/message/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseEnvelope<String>> readMessage(@Value("#{request.getAttribute('userId')}") Long userId,
+                                                                @PathVariable Long id) {
+        messageService.readMessage(id, userId);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
 }

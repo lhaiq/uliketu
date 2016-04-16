@@ -20,7 +20,7 @@ public interface RecommendRelationRepository {
 
     int updateByPrimaryKey(@Param("recommendrelation") RecommendRelation recommendrelation);
 
-    int selectCount(@Param("recommendrelation") RecommendRelation recommendrelation);
+    long selectCount(@Param("recommendrelation") RecommendRelation recommendrelation);
 
     List<RecommendRelation> selectPage(@Param("recommendrelation") RecommendRelation recommendrelation, @Param("pageable") Pageable pageable);
 }

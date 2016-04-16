@@ -17,6 +17,6 @@ public interface AdminService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(AdminModel adminModel);
+	public long selectCount(AdminModel adminModel);
 	
 }

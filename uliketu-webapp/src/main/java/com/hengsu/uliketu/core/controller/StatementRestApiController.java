@@ -51,7 +51,7 @@ public class StatementRestApiController {
         List<StatementModel> statementModels = statementService.selectPage(param, pageable);
         long count = statementService.selectCount(param);
         Page<StatementModel> page = new PageImpl<>(statementModels, pageable, count);
-        ResponseEnvelope<Page<StatementModel>> responseEnv = new ResponseEnvelope<>(page);
+        ResponseEnvelope<Page<StatementModel>> responseEnv = new ResponseEnvelope<>(page,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 

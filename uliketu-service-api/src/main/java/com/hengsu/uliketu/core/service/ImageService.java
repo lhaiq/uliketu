@@ -18,6 +18,6 @@ public interface ImageService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(ImageModel imageModel);
+	public long selectCount(ImageModel imageModel);
 	
 }

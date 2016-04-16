@@ -149,7 +149,7 @@
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Website" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.Website" >
     select count(*) from website
     <where >
       <if test="id != null" >

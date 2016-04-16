@@ -20,7 +20,7 @@ public interface AdvertisementRepository {
 
     int updateByPrimaryKey(@Param("advertisement") Advertisement advertisement);
 
-    int selectCount(@Param("advertisement") Advertisement advertisement);
+    long selectCount(@Param("advertisement") Advertisement advertisement);
 
     List<Advertisement> selectPage(@Param("advertisement") Advertisement advertisement, @Param("pageable") Pageable pageable);
 }

@@ -20,7 +20,7 @@ public interface MessageRepository {
 
     int updateByPrimaryKey(@Param("message") Message message);
 
-    int selectCount(@Param("message") Message message);
+    long selectCount(@Param("message") Message message);
 
     List<Message> selectPage(@Param("message") Message message, @Param("pageable") Pageable pageable);
 }

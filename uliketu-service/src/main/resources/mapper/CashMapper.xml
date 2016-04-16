@@ -138,7 +138,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Cash" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.Cash" >
     select count(*) from cash
     <where >
       <if test="id != null" >

@@ -20,7 +20,7 @@ public interface WebsiteRepository {
 
     int updateByPrimaryKey(@Param("website") Website website);
 
-    int selectCount(@Param("website") Website website);
+    long selectCount(@Param("website") Website website);
 
     List<Website> selectPage(@Param("website") Website website, @Param("pageable") Pageable pageable);
 }

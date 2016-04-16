@@ -17,6 +17,6 @@ public interface ChannelService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(ChannelModel channelModel);
+	public long selectCount(ChannelModel channelModel);
 	
 }

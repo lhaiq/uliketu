@@ -1,6 +1,8 @@
 package com.hengsu.uliketu.core.vo;
 
 import com.hkntv.pylon.core.beans.mapping.annotation.MapClass;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.Date;
 
 @MapClass("com.hengsu.uliketu.core.model.UserModel")
@@ -8,12 +10,11 @@ public class UserVO{
 
 	private Long id;
 	private String username;
-	private String password;
 	private String mail;
 	private String phone;
 	private String avatar;
-	private Double balance;
-	private Double blockBalance;
+	private Long balance;
+	private Long blockBalance;
 	private String idnumber;
 	private String idphoto;
 	private Integer blackStatus;
@@ -48,11 +49,11 @@ public class UserVO{
 		this.baifubaoAccount = baifubaoAccount;
 	}
 
-	public Double getBalance() {
+	public Long getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(Long balance) {
 		this.balance = balance;
 	}
 
@@ -64,11 +65,11 @@ public class UserVO{
 		this.blackStatus = blackStatus;
 	}
 
-	public Double getBlockBalance() {
+	public Long getBlockBalance() {
 		return blockBalance;
 	}
 
-	public void setBlockBalance(Double blockBalance) {
+	public void setBlockBalance(Long blockBalance) {
 		this.blockBalance = blockBalance;
 	}
 
@@ -118,14 +119,6 @@ public class UserVO{
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getPhone() {

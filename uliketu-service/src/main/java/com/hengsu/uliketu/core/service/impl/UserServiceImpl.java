@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     @Qualifier("identifyCodeCache")
-    private Cache identifyCodeCache;
+    private Cache<String,String> identifyCodeCache;
 
     @Transactional
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int createSelective(UserModel userModel) {
         User user = beanMapper.map(userModel, User.class);
-        int ret = userRepo.insertSelective(beanMapper.map(userModel, User.class));
+        int ret = userRepo.insertSelective(user);
         userModel.setId(user.getId());
         return ret;
     }
@@ -62,6 +62,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void registerUser(UserModel userModel) {
+
+        validateAccount(userModel.getUsername(),UserModel.ACCOUNT_TYPE_USERNAME);
+        validateAccount(userModel.getMail(),UserModel.ACCOUNT_TYPE_MAIL);
+        validateAccount(userModel.getUsername(),UserModel.ACCOUNT_TYPE_PHONE);
 
         UserModel recommendUser = null;
         //检测推荐人是否存在
@@ -76,6 +80,8 @@ public class UserServiceImpl implements UserService {
         userModel.setRandomId(generateRandomId());
 
         //添加User
+        userModel.setRegisterTime(new Date());
+        userModel.setPassword(DigestUtils.md5Hex(userModel.getPassword()));
         createSelective(userModel);
 
         if (null != recommendUser) {
@@ -84,7 +90,7 @@ public class UserServiceImpl implements UserService {
             rrm.setCreateTime(new Date());
             rrm.setRecommendId(recommendUser.getId());
             rrm.setUserId(userModel.getId());
-            rrm.setNum(Long.parseLong(confService.findByPrimaryKey(Consts.RECOMMEDN_VIRTUAL_NUM).toString()));
+            rrm.setNum(Long.parseLong(confService.findByPrimaryKey(Consts.RECOMMEDN_VIRTUAL_NUM).getConfValue()));
             recommendRelationService.createSelective(rrm);
         }
     }
@@ -104,22 +110,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel findByUserName(String username) {
-        return null;
+        return beanMapper.map(userRepo.selectByUserName(username),UserModel.class);
     }
 
     @Override
     public UserModel findByPhone(String phone) {
-        return null;
+        return beanMapper.map(userRepo.selectByPhone(phone),UserModel.class);
     }
 
     @Override
     public UserModel findByMail(String mail) {
-        return null;
+        return beanMapper.map(userRepo.selectByMail(mail),UserModel.class);
     }
 
     @Override
     public UserModel findByRandomId(String randomId) {
-        return null;
+        return beanMapper.map(userRepo.selectByRandomId(randomId),UserModel.class);
     }
 
     @Transactional(readOnly = true)
@@ -166,9 +172,10 @@ public class UserServiceImpl implements UserService {
         return userModel;
     }
 
+    @Transactional
     @Override
     public void modifyPasswd(String mail, String password, String identifyCode) {
-        if (!identifyCode.equals(identifyCodeCache.getIfPresent(mail).toString())) {
+        if (!identifyCode.equals(identifyCodeCache.getIfPresent(mail))) {
             throwBusinessException(IDENTIFY_CODE_ERROR);
         }
 
@@ -191,11 +198,11 @@ public class UserServiceImpl implements UserService {
     public void validateAccount(String account, String type) {
 
         if (UserModel.ACCOUNT_TYPE_USERNAME.equals(type)) {
-            if (null == findByUserName(account)) throwBusinessException(USERNAME_EXISTED);
+            if (null != findByUserName(account)) throwBusinessException(USERNAME_EXISTED);
         } else if (UserModel.ACCOUNT_TYPE_PHONE.equals(type)) {
-            if (null == findByPhone(account)) throwBusinessException(PHONE_EXISTED);
+            if (null != findByPhone(account)) throwBusinessException(PHONE_EXISTED);
         } else if (UserModel.ACCOUNT_TYPE_MAIL.equals(type)) {
-            if (null == findByMail(account)) throwBusinessException(MAIL_EXISTED);
+            if (null != findByMail(account)) throwBusinessException(MAIL_EXISTED);
         } else {
             throwBusinessException(ACCOUNT_TYPE_NOT_SUPPORTED);
         }
@@ -220,7 +227,7 @@ public class UserServiceImpl implements UserService {
         String identifyCode = RandomUtil.createRandom(true, 6);
         identifyCodeCache.put(mail, identifyCode);
         //TODO send mail
-
+        System.out.println(identifyCode);
     }
 
     @Transactional
@@ -252,7 +259,7 @@ public class UserServiceImpl implements UserService {
         while (true) {
             if (StringUtils.isNotEmpty(randomId)) return randomId;
             randomId = RandomUtil.createRandom(false, 8);
-            if (null == findByRandomId(randomId)) {
+            if (null != findByRandomId(randomId)) {
                 randomId = "";
             }
         }

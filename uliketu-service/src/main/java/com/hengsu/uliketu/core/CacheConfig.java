@@ -18,6 +18,9 @@ public class CacheConfig {
     public Cache<String, AuthModel> sessionCache() {
         Cache<String, AuthModel> cache = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES).build();
+        AuthModel authModel = new AuthModel(1L,1);
+        //TODO 去掉
+        cache.put("aaaaa",authModel);
         return cache;
     }
 

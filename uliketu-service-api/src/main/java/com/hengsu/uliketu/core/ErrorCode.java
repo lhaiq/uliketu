@@ -27,6 +27,7 @@ public enum ErrorCode {
     MESSAGE_NOT_EXISTED("1007", "该消息不存在"),
     IS_NOT_YOUR_MESSAGE("1007", "不是您的消息,无法更新"),
     BALANCE_NOT_ENOUGH("1007", "您的虚拟币不够"),
+    BALANCE_NOT_TO_MINIMUM("1007", "没有达到最低提现数量"),
     DATE_CANNOT_CASH("1007", "每月25日后不能提取,请下月1日再来"),
 
 

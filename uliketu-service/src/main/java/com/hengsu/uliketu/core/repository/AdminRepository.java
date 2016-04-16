@@ -20,7 +20,7 @@ public interface AdminRepository {
 
     int updateByPrimaryKey(@Param("admin") Admin admin);
 
-    int selectCount(@Param("admin") Admin admin);
+    long selectCount(@Param("admin") Admin admin);
 
     List<Admin> selectPage(@Param("admin") Admin admin, @Param("pageable") Pageable pageable);
 }

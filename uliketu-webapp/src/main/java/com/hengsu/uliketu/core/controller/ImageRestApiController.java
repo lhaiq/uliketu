@@ -34,7 +34,7 @@ public class ImageRestApiController {
 	public ResponseEntity<ResponseEnvelope<ImageVO>> getImageById(@PathVariable Long id){
 		ImageModel imageModel = imageService.findByPrimaryKey(id);
 		ImageVO imageVO =beanMapper.map(imageModel, ImageVO.class);
-		ResponseEnvelope<ImageVO> responseEnv = new ResponseEnvelope<ImageVO>(imageVO);
+		ResponseEnvelope<ImageVO> responseEnv = new ResponseEnvelope<>(imageVO,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	
@@ -42,23 +42,24 @@ public class ImageRestApiController {
 	public ResponseEntity<ResponseEnvelope<Integer>> createImage(@RequestBody ImageVO imageVO){
 		ImageModel imageModel = beanMapper.map(imageVO, ImageModel.class);
 		Integer  result = imageService.create(imageModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/core/image/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseEnvelope<Integer>> deleteImageByPrimaryKey(@PathVariable Long id){
 		Integer  result = imageService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/core/image/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ResponseEnvelope<Integer>> updateImageByPrimaryKeySelective(@PathVariable Long id, @RequestBody ImageVO imageVO){
+	public ResponseEntity<ResponseEnvelope<Integer>> updateImageByPrimaryKeySelective(@PathVariable Long id,
+																					  @RequestBody ImageVO imageVO){
 		ImageModel imageModel = beanMapper.map(imageVO, ImageModel.class);
 		imageModel.setId(id);
 		Integer  result = imageService.updateByPrimaryKeySelective(imageModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	

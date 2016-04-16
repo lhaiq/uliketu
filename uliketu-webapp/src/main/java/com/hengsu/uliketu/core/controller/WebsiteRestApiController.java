@@ -39,7 +39,7 @@ public class WebsiteRestApiController {
 	public ResponseEntity<ResponseEnvelope<WebsiteVO>> getWebsiteById(@PathVariable Long id){
 		WebsiteModel websiteModel = websiteService.findByPrimaryKey(id);
 		WebsiteVO websiteVO =beanMapper.map(websiteModel, WebsiteVO.class);
-		ResponseEnvelope<WebsiteVO> responseEnv = new ResponseEnvelope<>(websiteVO);
+		ResponseEnvelope<WebsiteVO> responseEnv = new ResponseEnvelope<>(websiteVO,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -55,7 +55,7 @@ public class WebsiteRestApiController {
 		WebsiteModel websiteModel = beanMapper.map(websiteVO, WebsiteModel.class);
 		websiteModel.setId(id);
 		Integer  result = websiteService.updateByPrimaryKeySelective(websiteModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	

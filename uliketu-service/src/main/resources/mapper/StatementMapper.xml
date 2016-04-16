@@ -103,7 +103,7 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Statement" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.Statement" >
     select count(*) from statement
     <where >
       <if test="id != null" >

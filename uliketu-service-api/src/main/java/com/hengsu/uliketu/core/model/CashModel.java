@@ -12,7 +12,7 @@ public class CashModel{
 
 	private Long id;
 	private Long userid;
-	private Double balance;
+	private Long balance;
 	private Double money;
 	private Double rate;
 	private Double poundage;
@@ -36,11 +36,11 @@ public class CashModel{
 		return this.userid;
 	}
 		
-	public void setBalance(Double balance){
+	public void setBalance(Long balance){
 		this.balance = balance;
 	}
 	
-	public Double getBalance(){
+	public Long getBalance(){
 		return this.balance;
 	}
 		

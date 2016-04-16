@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(ImageModel imageModel) {
+	public long selectCount(ImageModel imageModel) {
 		return imageRepo.selectCount(beanMapper.map(imageModel, Image.class));
 	}
 

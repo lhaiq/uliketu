@@ -20,7 +20,7 @@ public interface StatementRepository {
 
     int updateByPrimaryKey(@Param("statement") Statement statement);
 
-    int selectCount(@Param("statement") Statement statement);
+    long selectCount(@Param("statement") Statement statement);
 
     List<Statement> selectPage(@Param("statement") Statement statement, @Param("pageable") Pageable pageable);
 }

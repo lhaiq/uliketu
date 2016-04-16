@@ -17,6 +17,6 @@ public interface CategoryService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(CategoryModel categoryModel);
+	public long selectCount(CategoryModel categoryModel);
 	
 }

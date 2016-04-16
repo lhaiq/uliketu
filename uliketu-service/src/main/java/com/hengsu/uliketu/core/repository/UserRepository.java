@@ -1,7 +1,10 @@
 package com.hengsu.uliketu.core.repository;
 
 import com.hengsu.uliketu.core.entity.User;
+
 import java.util.List;
+
+import com.hengsu.uliketu.core.model.UserModel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,14 @@ public interface UserRepository {
     int insertSelective(@Param("user") User user);
 
     User selectByPrimaryKey(@Param("id") Long id);
+
+    User selectByUserName(String username);
+
+    User selectByPhone(String phone);
+
+    User selectByMail(String mail);
+
+    User selectByRandomId(String randomId);
 
     int updateByPrimaryKeySelective(@Param("user") User user);
 

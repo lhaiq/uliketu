@@ -38,4 +38,24 @@ public class ConfServiceImpl implements ConfService {
 		return confRepo.updateByPrimaryKeySelective(beanMapper.map(confModel, Conf.class));
 	}
 
+	@Override
+	public double findDouble(String key) {
+		return Double.parseDouble(findByPrimaryKey(key).getConfValue());
+	}
+
+	@Override
+	public String findString(String key) {
+		return findByPrimaryKey(key).getConfValue();
+	}
+
+	@Override
+	public int findInt(String key) {
+		return Integer.parseInt(findByPrimaryKey(key).getConfValue());
+	}
+
+	@Override
+	public long findLong(String key) {
+		return Long.parseLong(findByPrimaryKey(key).getConfValue());
+	}
+
 }

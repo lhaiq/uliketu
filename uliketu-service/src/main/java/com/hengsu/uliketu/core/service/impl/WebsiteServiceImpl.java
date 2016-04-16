@@ -46,7 +46,7 @@ public class WebsiteServiceImpl implements WebsiteService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(WebsiteModel websiteModel) {
+	public long selectCount(WebsiteModel websiteModel) {
 		return websiteRepo.selectCount(beanMapper.map(websiteModel, Website.class));
 	}
 

@@ -46,7 +46,7 @@ public class RecommendRelationServiceImpl implements RecommendRelationService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(RecommendRelationModel recommendRelationModel) {
+	public long selectCount(RecommendRelationModel recommendRelationModel) {
 		return recommendRelationRepo.selectCount(beanMapper.map(recommendRelationModel, RecommendRelation.class));
 	}
 

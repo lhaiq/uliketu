@@ -55,7 +55,7 @@
     set conf_value = #{confValue,jdbcType=VARCHAR}
     where conf_key = #{confKey,jdbcType=VARCHAR}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Conf" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.Conf" >
     select count(*) from conf
     <where >
       <if test="confKey != null" >

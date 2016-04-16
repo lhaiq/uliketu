@@ -29,6 +29,7 @@
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user
     where id = #{id,jdbcType=BIGINT}
@@ -47,7 +48,7 @@
       #{baifubaoAccount,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR}, 
       #{randomId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.User" >
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.User" keyProperty="id" useGeneratedKeys="true">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -220,7 +221,7 @@
       random_id = #{randomId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.User" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.User" >
     select count(*) from user
     <where >
       <if test="id != null" >
@@ -334,5 +335,33 @@
     <if test="param2.offset >= 0 and param2.pageSize > 0" >
       limit ${param2.offset}, ${param2.pageSize}
     </if>
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByMail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where mail = #{mail,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByRandomId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where random_id = #{randomId,jdbcType=VARCHAR}
   </select>
 </mapper>

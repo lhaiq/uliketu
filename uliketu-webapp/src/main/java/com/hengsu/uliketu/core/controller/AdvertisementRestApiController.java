@@ -40,11 +40,11 @@ public class AdvertisementRestApiController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/admin/advertisement/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/advertisement/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<AdvertisementVO>> getAdvertisementById(@PathVariable Integer id){
 		AdvertisementModel advertisementModel = advertisementService.findByPrimaryKey(id);
 		AdvertisementVO advertisementVO =beanMapper.map(advertisementModel, AdvertisementVO.class);
-		ResponseEnvelope<AdvertisementVO> responseEnv = new ResponseEnvelope<AdvertisementVO>(advertisementVO);
+		ResponseEnvelope<AdvertisementVO> responseEnv = new ResponseEnvelope<>(advertisementVO,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -53,13 +53,13 @@ public class AdvertisementRestApiController {
 	 * @param pageable
 	 * @return
 	 */
-	@RequestMapping(value = "/admin/advertisements", method = RequestMethod.GET)
+	@RequestMapping(value = "/advertisements", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<Page<AdvertisementModel>>> listAdvertisement(Pageable pageable){
 		AdvertisementModel param = new AdvertisementModel();
 		List<AdvertisementModel> advertisementModels = advertisementService.selectPage(param,pageable);
 		long count=advertisementService.selectCount(param);
 		Page<AdvertisementModel> page = new PageImpl<>(advertisementModels,pageable,count);
-		ResponseEnvelope<Page<AdvertisementModel>> responseEnv = new ResponseEnvelope<>(page);
+		ResponseEnvelope<Page<AdvertisementModel>> responseEnv = new ResponseEnvelope<>(page,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -72,7 +72,7 @@ public class AdvertisementRestApiController {
 	public ResponseEntity<ResponseEnvelope<Integer>> createAdvertisement(@RequestBody AdvertisementVO advertisementVO){
 		AdvertisementModel advertisementModel = beanMapper.map(advertisementVO, AdvertisementModel.class);
 		Integer  result = advertisementService.create(advertisementModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -84,7 +84,7 @@ public class AdvertisementRestApiController {
 	@RequestMapping(value = "/admin/advertisement/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseEnvelope<Integer>> deleteAdvertisementByPrimaryKey(@PathVariable Integer id){
 		Integer  result = advertisementService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -100,7 +100,7 @@ public class AdvertisementRestApiController {
 		AdvertisementModel advertisementModel = beanMapper.map(advertisementVO, AdvertisementModel.class);
 		advertisementModel.setId(id);
 		Integer  result = advertisementService.updateByPrimaryKeySelective(advertisementModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	

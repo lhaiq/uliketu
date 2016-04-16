@@ -20,7 +20,7 @@ public interface ConfRepository {
 
     int updateByPrimaryKey(@Param("conf") Conf conf);
 
-    int selectCount(@Param("conf") Conf conf);
+    long selectCount(@Param("conf") Conf conf);
 
     List<Conf> selectPage(@Param("conf") Conf conf, @Param("pageable") Pageable pageable);
 }

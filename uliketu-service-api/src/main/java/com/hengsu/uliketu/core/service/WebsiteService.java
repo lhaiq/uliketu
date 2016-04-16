@@ -17,6 +17,6 @@ public interface WebsiteService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(WebsiteModel websiteModel);
+	public long selectCount(WebsiteModel websiteModel);
 	
 }

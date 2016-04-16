@@ -1,6 +1,8 @@
 package com.hengsu.uliketu.core.service.impl;
 
+import com.hengsu.uliketu.core.Consts;
 import com.hengsu.uliketu.core.model.UserModel;
+import com.hengsu.uliketu.core.service.ConfService;
 import com.hengsu.uliketu.core.service.UserService;
 
 import static com.hengsu.uliketu.core.ErrorCode.*;
@@ -16,6 +18,8 @@ import com.hengsu.uliketu.core.model.CashModel;
 import com.hengsu.uliketu.core.service.CashService;
 import com.hkntv.pylon.core.beans.mapping.BeanMapper;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +35,9 @@ public class CashServiceImpl implements CashService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ConfService confService;
 
     @Transactional
     @Override
@@ -65,11 +72,16 @@ public class CashServiceImpl implements CashService {
 
     @Transactional
     @Override
-    public void addCash(CashModel cashModel) {
+    public CashModel addCash(CashModel cashModel) {
 
         //每月25日后不能提取
         if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 25) {
             throwBusinessException(DATE_CANNOT_CASH);
+        }
+
+        //最低提现标准
+        if (cashModel.getBalance() < confService.findLong(Consts.VIRTUAL_COIN_EXCHANGE_MINIMUM_NUM)) {
+            throwBusinessException(BALANCE_NOT_TO_MINIMUM);
         }
 
         //check该用户余额是否足够
@@ -82,9 +94,23 @@ public class CashServiceImpl implements CashService {
         userService.addBlockBalance(cashModel.getBalance());
         userService.addBalance(cashModel.getBalance() * (-1));
 
+        //配置文件
+        double poundage = confService.findDouble(Consts.VIRTUAL_COIN_EXCHANGE_POUNDAGE);
+        double rate = confService.findDouble(Consts.VIRTUAL_COIN_EXCHNAGE_RATE_WITH_RENMIN);
+
+        //计算提现金额 取两位数字
+        double money = cashModel.getBalance() * (rate / 100) - (1 - poundage / 100);
+        BigDecimal b = new BigDecimal(money);
+        money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+        cashModel.setPoundage(poundage);
+        cashModel.setRate(rate);
+        cashModel.setMoney(money);
+
         //创建提现申请
         cashModel.setApplyTime(new Date());
         createSelective(cashModel);
+        return cashModel;
     }
 
     @Transactional
@@ -139,6 +165,13 @@ public class CashServiceImpl implements CashService {
     @Override
     public int updateByPrimaryKeySelective(CashModel cashModel) {
         return cashRepo.updateByPrimaryKeySelective(beanMapper.map(cashModel, Cash.class));
+    }
+
+    public static void main(String[] args) {
+        BigDecimal b = new BigDecimal(86.64466666);
+        double f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        System.out.println(f1);
+
     }
 
 

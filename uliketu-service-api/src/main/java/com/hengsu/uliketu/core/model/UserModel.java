@@ -23,8 +23,25 @@ public class UserModel {
     private String mail;
     private String phone;
     private String avatar;
-    private Double balance;
-    private Double blockBalance;
+    private Long balance;
+
+    public Long getBlockBalance() {
+        return blockBalance;
+    }
+
+    public void setBlockBalance(Long blockBalance) {
+        this.blockBalance = blockBalance;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    private Long blockBalance;
     private String idnumber;
     private String idphoto;
     private Integer blackStatus;
@@ -81,22 +98,6 @@ public class UserModel {
 
     public String getAvatar() {
         return this.avatar;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
-    public Double getBalance() {
-        return this.balance;
-    }
-
-    public void setBlockBalance(Double blockBalance) {
-        this.blockBalance = blockBalance;
-    }
-
-    public Double getBlockBalance() {
-        return this.blockBalance;
     }
 
     public void setIdnumber(String idnumber) {

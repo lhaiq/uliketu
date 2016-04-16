@@ -20,7 +20,7 @@ public interface LinkRepository {
 
     int updateByPrimaryKey(@Param("link") Link link);
 
-    int selectCount(@Param("link") Link link);
+    long selectCount(@Param("link") Link link);
 
     List<Link> selectPage(@Param("link") Link link, @Param("pageable") Pageable pageable);
 }

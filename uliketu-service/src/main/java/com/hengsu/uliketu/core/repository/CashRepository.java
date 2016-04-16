@@ -20,7 +20,7 @@ public interface CashRepository {
 
     int updateByPrimaryKey(@Param("cash") Cash cash);
 
-    int selectCount(@Param("cash") Cash cash);
+    long selectCount(@Param("cash") Cash cash);
 
     List<Cash> selectPage(@Param("cash") Cash cash, @Param("pageable") Pageable pageable);
 }

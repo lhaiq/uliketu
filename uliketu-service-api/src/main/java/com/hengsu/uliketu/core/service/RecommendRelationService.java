@@ -18,6 +18,6 @@ public interface RecommendRelationService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(RecommendRelationModel recommendRelationModel);
+	public long selectCount(RecommendRelationModel recommendRelationModel);
 	
 }

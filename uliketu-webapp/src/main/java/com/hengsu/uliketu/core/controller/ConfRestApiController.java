@@ -41,7 +41,7 @@ public class ConfRestApiController {
 	public ResponseEntity<ResponseEnvelope<ConfVO>> getConfById(@PathVariable String key){
 		ConfModel confModel = confService.findByPrimaryKey(key);
 		ConfVO confVO =beanMapper.map(confModel, ConfVO.class);
-		ResponseEnvelope<ConfVO> responseEnv = new ResponseEnvelope<>(confVO);
+		ResponseEnvelope<ConfVO> responseEnv = new ResponseEnvelope<>(confVO,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -54,7 +54,7 @@ public class ConfRestApiController {
 	public ResponseEntity<ResponseEnvelope<String>> updateConfByPrimaryKeySelective(@RequestBody ConfVO confVO){
 		ConfModel confModel = beanMapper.map(confVO, ConfModel.class);
 		confService.updateByPrimaryKeySelective(confModel);
-		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK);
+		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	

@@ -44,7 +44,7 @@ public class CashRestApiController {
     public ResponseEntity<ResponseEnvelope<CashVO>> getCashById(@PathVariable Long id) {
         CashModel cashModel = cashService.findByPrimaryKey(id);
         CashVO cashVO = beanMapper.map(cashModel, CashVO.class);
-        ResponseEnvelope<CashVO> responseEnv = new ResponseEnvelope<CashVO>(cashVO);
+        ResponseEnvelope<CashVO> responseEnv = new ResponseEnvelope<>(cashVO,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class CashRestApiController {
         List<CashModel> cashModels = cashService.selectPage(param, pageable);
         long count = cashService.selectCount(param);
         Page<CashModel> page = new PageImpl<>(cashModels, pageable, count);
-        ResponseEnvelope<Page<CashModel>> responseEnv = new ResponseEnvelope<>(page);
+        ResponseEnvelope<Page<CashModel>> responseEnv = new ResponseEnvelope<>(page,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -74,10 +74,12 @@ public class CashRestApiController {
      * @return
      */
     @RequestMapping(value = "/cash", method = RequestMethod.POST)
-    public ResponseEntity<ResponseEnvelope<String>> addCash(@RequestBody CashVO cashVO) {
+    public ResponseEntity<ResponseEnvelope<CashModel>> addCash(@Value("#{request.getAttribute('userId')}") Long userId,
+                                                            @RequestBody CashVO cashVO) {
         CashModel cashModel = beanMapper.map(cashVO, CashModel.class);
-        cashService.addCash(cashModel);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK);
+        cashModel.setUserid(userId);
+        cashModel=cashService.addCash(cashModel);
+        ResponseEnvelope<CashModel> responseEnv = new ResponseEnvelope<>(cashModel,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -97,7 +99,7 @@ public class CashRestApiController {
         List<CashModel> cashModels = cashService.selectPage(param, pageable);
         long count = cashService.selectCount(param);
         Page<CashModel> page = new PageImpl<>(cashModels, pageable, count);
-        ResponseEnvelope<Page<CashModel>> responseEnv = new ResponseEnvelope<>(page);
+        ResponseEnvelope<Page<CashModel>> responseEnv = new ResponseEnvelope<>(page,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -110,7 +112,7 @@ public class CashRestApiController {
     @RequestMapping(value = "/admin/agreecash/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> agreeCash(@PathVariable Long id) {
         cashService.agreeCash(id);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -123,7 +125,7 @@ public class CashRestApiController {
     @RequestMapping(value = "/admin/refusecash/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> refuseCash(@PathVariable Long id) {
         cashService.refuseCash(id);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 

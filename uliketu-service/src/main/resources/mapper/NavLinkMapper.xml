@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.uliketu.nav.repository.NavLinkRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.uliketu.nav.entity.NavLink" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="BIGINT" />
+    <result column="is_repeat" property="isRepeat" jdbcType="INTEGER" />
+    <result column="column_id" property="columnId" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, url, type, num, is_repeat, column_id, sort, add_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from nav_link
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from nav_link
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.uliketu.nav.entity.NavLink" >
+    insert into nav_link (id, name, url, 
+      type, num, is_repeat, 
+      column_id, sort, add_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{num,jdbcType=BIGINT}, #{isRepeat,jdbcType=INTEGER}, 
+      #{columnId,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.nav.entity.NavLink" >
+    insert into nav_link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="isRepeat != null" >
+        is_repeat,
+      </if>
+      <if test="columnId != null" >
+        column_id,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=BIGINT},
+      </if>
+      <if test="isRepeat != null" >
+        #{isRepeat,jdbcType=INTEGER},
+      </if>
+      <if test="columnId != null" >
+        #{columnId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.nav.entity.NavLink" >
+    update nav_link
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=BIGINT},
+      </if>
+      <if test="isRepeat != null" >
+        is_repeat = #{isRepeat,jdbcType=INTEGER},
+      </if>
+      <if test="columnId != null" >
+        column_id = #{columnId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.nav.entity.NavLink" >
+    update nav_link
+    set name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      num = #{num,jdbcType=BIGINT},
+      is_repeat = #{isRepeat,jdbcType=INTEGER},
+      column_id = #{columnId,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.nav.entity.NavLink" >
+    select count(*) from nav_link
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="url != null" >
+        and url = #{url,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="num != null" >
+        and num = #{num,jdbcType=BIGINT}
+      </if>
+      <if test="isRepeat != null" >
+        and is_repeat = #{isRepeat,jdbcType=INTEGER}
+      </if>
+      <if test="columnId != null" >
+        and column_id = #{columnId,jdbcType=BIGINT}
+      </if>
+      <if test="sort != null" >
+        and sort = #{sort,jdbcType=INTEGER}
+      </if>
+      <if test="addTime != null" >
+        and add_time = #{addTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from nav_link where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.name != null" >
+      and name = #{param1.name,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.url != null" >
+      and url = #{param1.url,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.type != null" >
+      and type = #{param1.type,jdbcType=INTEGER}
+    </if>
+    <if test="param1.num != null" >
+      and num = #{param1.num,jdbcType=BIGINT}
+    </if>
+    <if test="param1.isRepeat != null" >
+      and is_repeat = #{param1.isRepeat,jdbcType=INTEGER}
+    </if>
+    <if test="param1.columnId != null" >
+      and column_id = #{param1.columnId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.sort != null" >
+      and sort = #{param1.sort,jdbcType=INTEGER}
+    </if>
+    <if test="param1.addTime != null" >
+      and add_time = #{param1.addTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

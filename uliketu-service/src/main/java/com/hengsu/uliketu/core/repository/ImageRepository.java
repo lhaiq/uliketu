@@ -20,7 +20,7 @@ public interface ImageRepository {
 
     int updateByPrimaryKey(@Param("image") Image image);
 
-    int selectCount(@Param("image") Image image);
+    long selectCount(@Param("image") Image image);
 
     List<Image> selectPage(@Param("image") Image image, @Param("pageable") Pageable pageable);
 }

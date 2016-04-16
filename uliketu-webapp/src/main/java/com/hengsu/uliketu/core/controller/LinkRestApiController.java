@@ -40,11 +40,11 @@ public class LinkRestApiController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/admin/link/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/link/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<LinkVO>> getLinkById(@PathVariable Integer id){
 		LinkModel linkModel = linkService.findByPrimaryKey(id);
 		LinkVO linkVO =beanMapper.map(linkModel, LinkVO.class);
-		ResponseEnvelope<LinkVO> responseEnv = new ResponseEnvelope<>(linkVO);
+		ResponseEnvelope<LinkVO> responseEnv = new ResponseEnvelope<>(linkVO,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -52,13 +52,13 @@ public class LinkRestApiController {
 	 * 链接列表
 	 * @return
 	 */
-	@RequestMapping(value = "/admin/links", method = RequestMethod.GET)
+	@RequestMapping(value = "/links", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<Page<LinkModel>>> listLink(Pageable pageable){
 		LinkModel param = new LinkModel();
 		List<LinkModel> linkModels = linkService.selectPage(param,pageable);
 		long count = linkService.selectCount(param);
 		Page<LinkModel> page = new PageImpl<>(linkModels,pageable,count);
-		ResponseEnvelope<Page<LinkModel>> responseEnv = new ResponseEnvelope<>(page);
+		ResponseEnvelope<Page<LinkModel>> responseEnv = new ResponseEnvelope<>(page,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -71,7 +71,7 @@ public class LinkRestApiController {
 	public ResponseEntity<ResponseEnvelope<Integer>> createLink(@RequestBody LinkVO linkVO){
 		LinkModel linkModel = beanMapper.map(linkVO, LinkModel.class);
 		Integer  result = linkService.create(linkModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -83,7 +83,7 @@ public class LinkRestApiController {
 	@RequestMapping(value = "/admin/link/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseEnvelope<Integer>> deleteLinkByPrimaryKey(@PathVariable Integer id){
 		Integer  result = linkService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 
@@ -99,7 +99,7 @@ public class LinkRestApiController {
 		LinkModel linkModel = beanMapper.map(linkVO, LinkModel.class);
 		linkModel.setId(id);
 		Integer  result = linkService.updateByPrimaryKeySelective(linkModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
 	

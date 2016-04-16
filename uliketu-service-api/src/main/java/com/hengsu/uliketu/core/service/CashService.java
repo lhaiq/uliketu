@@ -25,7 +25,7 @@ public interface CashService {
     public long selectCount(CashModel cashModel);
 
 
-    public void addCash(CashModel cashModel);
+    public CashModel addCash(CashModel cashModel);
 
     public void agreeCash(Long id);
 
