@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.uliketu.mall.repository.GoodsRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.uliketu.mall.entity.Goods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="BIGINT" />
+    <result column="expense_by" property="expenseBy" jdbcType="INTEGER" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="periods" property="periods" jdbcType="INTEGER" />
+    <result column="excute_periods" property="excutePeriods" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_id, name, image, num, expense_by, keywords, type, periods, excute_periods, 
+    status, add_time, sort
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mall_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.uliketu.mall.entity.Goods" >
+    insert into mall_goods (id, category_id, name, 
+      image, num, expense_by, 
+      keywords, type, periods, 
+      excute_periods, status, add_time, 
+      sort)
+    values (#{id,jdbcType=BIGINT}, #{categoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{num,jdbcType=BIGINT}, #{expenseBy,jdbcType=INTEGER}, 
+      #{keywords,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{periods,jdbcType=INTEGER}, 
+      #{excutePeriods,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.mall.entity.Goods" >
+    insert into mall_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="expenseBy != null" >
+        expense_by,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="periods != null" >
+        periods,
+      </if>
+      <if test="excutePeriods != null" >
+        excute_periods,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=BIGINT},
+      </if>
+      <if test="expenseBy != null" >
+        #{expenseBy,jdbcType=INTEGER},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="periods != null" >
+        #{periods,jdbcType=INTEGER},
+      </if>
+      <if test="excutePeriods != null" >
+        #{excutePeriods,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.mall.entity.Goods" >
+    update mall_goods
+    <set >
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=BIGINT},
+      </if>
+      <if test="expenseBy != null" >
+        expense_by = #{expenseBy,jdbcType=INTEGER},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="periods != null" >
+        periods = #{periods,jdbcType=INTEGER},
+      </if>
+      <if test="excutePeriods != null" >
+        excute_periods = #{excutePeriods,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.mall.entity.Goods" >
+    update mall_goods
+    set category_id = #{categoryId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      num = #{num,jdbcType=BIGINT},
+      expense_by = #{expenseBy,jdbcType=INTEGER},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      periods = #{periods,jdbcType=INTEGER},
+      excute_periods = #{excutePeriods,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.mall.entity.Goods" >
+    select count(*) from mall_goods
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="categoryId != null" >
+        and category_id = #{categoryId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
+      </if>
+      <if test="num != null" >
+        and num = #{num,jdbcType=BIGINT}
+      </if>
+      <if test="expenseBy != null" >
+        and expense_by = #{expenseBy,jdbcType=INTEGER}
+      </if>
+      <if test="keywords != null" >
+        and keywords = #{keywords,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="periods != null" >
+        and periods = #{periods,jdbcType=INTEGER}
+      </if>
+      <if test="excutePeriods != null" >
+        and excute_periods = #{excutePeriods,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="addTime != null" >
+        and add_time = #{addTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sort != null" >
+        and sort = #{sort,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_goods where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.categoryId != null" >
+      and category_id = #{param1.categoryId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.name != null" >
+      and name = #{param1.name,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.image != null" >
+      and image = #{param1.image,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.num != null" >
+      and num = #{param1.num,jdbcType=BIGINT}
+    </if>
+    <if test="param1.expenseBy != null" >
+      and expense_by = #{param1.expenseBy,jdbcType=INTEGER}
+    </if>
+    <if test="param1.keywords != null" >
+      and keywords = #{param1.keywords,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.type != null" >
+      and type = #{param1.type,jdbcType=INTEGER}
+    </if>
+    <if test="param1.periods != null" >
+      and periods = #{param1.periods,jdbcType=INTEGER}
+    </if>
+    <if test="param1.excutePeriods != null" >
+      and excute_periods = #{param1.excutePeriods,jdbcType=INTEGER}
+    </if>
+    <if test="param1.status != null" >
+      and status = #{param1.status,jdbcType=INTEGER}
+    </if>
+    <if test="param1.addTime != null" >
+      and add_time = #{param1.addTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.sort != null" >
+      and sort = #{param1.sort,jdbcType=INTEGER}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

@@ -1,6 +1,9 @@
 package com.hengsu.uliketu.nav.service.impl;
 
+import com.hengsu.uliketu.nav.model.LinkClickModel;
+import com.hengsu.uliketu.nav.service.LinkClickService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +13,9 @@ import com.hengsu.uliketu.nav.model.NavLinkModel;
 import com.hengsu.uliketu.nav.service.NavLinkService;
 import com.hkntv.pylon.core.beans.mapping.BeanMapper;
 
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class NavLinkServiceImpl implements NavLinkService {
 
@@ -18,6 +24,9 @@ public class NavLinkServiceImpl implements NavLinkService {
 
 	@Autowired
 	private NavLinkRepository navLinkRepo;
+
+	@Autowired
+	private LinkClickService linkClickService;
 
 	@Transactional
 	@Override
@@ -44,10 +53,26 @@ public class NavLinkServiceImpl implements NavLinkService {
 		return beanMapper.map(navLink, NavLinkModel.class);
 	}
 
+	@Transactional
+	@Override
+	public void clickLink(Long id, Long userId) {
+		LinkClickModel linkClickModel = new LinkClickModel();
+		linkClickModel.setClickTime(new Date());
+		linkClickModel.setUserId(userId);
+		linkClickModel.setLinkId(id);
+		linkClickService.createSelective(linkClickModel);
+	}
+
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(NavLinkModel navLinkModel) {
+	public long selectCount(NavLinkModel navLinkModel) {
 		return navLinkRepo.selectCount(beanMapper.map(navLinkModel, NavLink.class));
+	}
+
+	@Override
+	public List<NavLinkModel> selectPage(NavLinkModel navLinkModel, Pageable pageable) {
+		List<NavLink> navLinks = navLinkRepo.selectPage(beanMapper.map(navLinkModel,NavLink.class),pageable);
+		return beanMapper.mapAsList(navLinks,NavLinkModel.class);
 	}
 
 	@Transactional

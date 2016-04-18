@@ -1,6 +1,7 @@
 package com.hengsu.uliketu.nav.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +10,8 @@ import com.hengsu.uliketu.nav.repository.ColumnRepository;
 import com.hengsu.uliketu.nav.model.ColumnModel;
 import com.hengsu.uliketu.nav.service.ColumnService;
 import com.hkntv.pylon.core.beans.mapping.BeanMapper;
+
+import java.util.List;
 
 @Service
 public class ColumnServiceImpl implements ColumnService {
@@ -46,8 +49,15 @@ public class ColumnServiceImpl implements ColumnService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(ColumnModel columnModel) {
+	public long selectCount(ColumnModel columnModel) {
 		return columnRepo.selectCount(beanMapper.map(columnModel, Column.class));
+	}
+
+	@Override
+	public List<ColumnModel> selectPage(ColumnModel columnModel, Pageable pageable) {
+		Column column = beanMapper.map(columnModel,Column.class);
+		List<Column> columns = columnRepo.selectPage(column,pageable);
+		return beanMapper.mapAsList(columns,ColumnModel.class);
 	}
 
 	@Transactional

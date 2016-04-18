@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.hengsu.uliketu.core.ErrorCode;
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.core.model.AuthModel;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.StringUtils;
@@ -70,11 +71,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     private boolean checkIgnore(Object handler) {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         IgnoreAuth ignoreAuth = handlerMethod.getMethodAnnotation(IgnoreAuth.class);
-        RequestMapping requestMapping = handlerMethod.getMethodAnnotation(RequestMapping.class);
         if (null != ignoreAuth) {
             return true;
         }
 
         return false;
     }
+
 }

@@ -2,6 +2,9 @@
 package com.hengsu.uliketu.nav.service;
 
 import com.hengsu.uliketu.nav.model.ColumnModel;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ColumnService{
 	
@@ -17,6 +20,8 @@ public interface ColumnService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(ColumnModel columnModel);
+	public long selectCount(ColumnModel columnModel);
+
+	public List<ColumnModel> selectPage(ColumnModel columnModel,Pageable pageable);
 	
 }
