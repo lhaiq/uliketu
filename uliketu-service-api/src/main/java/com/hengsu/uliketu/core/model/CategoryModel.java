@@ -9,6 +9,7 @@ public class CategoryModel{
 	private String name;
 	private String description;
 	private Long parentId;
+	private Integer sort;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -41,6 +42,12 @@ public class CategoryModel{
 	public Long getParentId(){
 		return this.parentId;
 	}
-		
-		
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
 }
