@@ -1,5 +1,7 @@
 package com.hengsu.uliketu.mall.controller;
 
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.vo.ReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,7 @@ public class GoodsRestApiController {
      * @param id
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<GoodsVO>> getGoodsById(@PathVariable Long id) {
         GoodsModel goodsModel = goodsService.findByPrimaryKey(id);
@@ -50,12 +53,14 @@ public class GoodsRestApiController {
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
+
     /**
      * 商品列表
      * @param categoryId
      * @param pageable
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/mall/{categoryId}/goods", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<GoodsModel>>> listGoods(@PathVariable Long categoryId,
                                                                         Pageable pageable) {
@@ -83,6 +88,54 @@ public class GoodsRestApiController {
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
+
+    /**
+     * 保存并上架
+     */
+    @RequestMapping(value = "/mall/saveAndShelve/goods", method = RequestMethod.POST)
+    public ResponseEntity<ResponseEnvelope<String>> saveAndShelve(@RequestBody GoodsVO goodsVO) {
+        GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
+        goodsModel.setAddTime(new Date());
+        goodsService.saveAndShelve(goodsModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+    /**
+     * 上架
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/mall/shelve/goods/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseEnvelope<String>> shelve(@PathVariable Long id) {
+        goodsService.shelve(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+
+    /**
+     * 下架
+     */
+    @RequestMapping(value = "/mall/unShelve/goods/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseEnvelope<String>> unShelve(@PathVariable Long id) {
+        goodsService.unShelve(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+
+    /**
+     * 预下架
+     */
+    @RequestMapping(value = "/mall/preUnShelve/goods/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseEnvelope<String>> preUnShelve(@PathVariable Long id) {
+        goodsService.preUnShelve(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+
     /**
      * 删除商品
      *
@@ -91,8 +144,8 @@ public class GoodsRestApiController {
      */
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteGoodsByPrimaryKey(@PathVariable Long id) {
-        Integer result = goodsService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
+        Integer result = goodsService.deleteGoods(id);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -105,13 +158,14 @@ public class GoodsRestApiController {
      * @return
      */
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseEnvelope<Integer>> updateGoodsByPrimaryKeySelective(@PathVariable Long id,
+    public ResponseEntity<ResponseEnvelope<String>> updateGoodsByPrimaryKeySelective(@PathVariable Long id,
                                                                                       @RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
         goodsModel.setId(id);
-        Integer result = goodsService.updateByPrimaryKeySelective(goodsModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
+        goodsService.updateGoods(goodsModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
+
 
 }

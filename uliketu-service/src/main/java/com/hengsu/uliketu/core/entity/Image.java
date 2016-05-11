@@ -4,10 +4,27 @@ import java.util.Date;
 
 public class Image {
     private Long id;
+    private String filename;
+    private String path;
+    private Date time;
+    private String contentType;
+    private Long length;
 
-    private String name;
+    public String getContentType() {
+        return contentType;
+    }
 
-    private Date uploadTime;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public Long getId() {
         return id;
@@ -17,19 +34,27 @@ public class Image {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getLength() {
+        return length;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLength(Long length) {
+        this.length = length;
     }
 
-    public Date getUploadTime() {
-        return uploadTime;
+    public String getPath() {
+        return path;
     }
 
-    public void setUploadTime(Date uploadTime) {
-        this.uploadTime = uploadTime;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

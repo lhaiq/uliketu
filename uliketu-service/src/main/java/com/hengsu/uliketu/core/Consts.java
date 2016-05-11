@@ -11,4 +11,13 @@ public class Consts {
     public static final String VIRTUAL_COIN_EXCHANGE_POUNDAGE = "virtual_coin_exchange_poundage";
     public static final String RECOMMEDN_VIRTUAL_NUM= "recommend_virtual_num";
 
+
+
+    //消息
+    public static final String AGREE_CASH= "recommend_virtual_num";
+    public static final String REFUSH_CASH= "recommend_virtual_num";
+    public static final String REAL_NAME= "recommend_virtual_num";
+    public static final String LOTTERY= "recommend_virtual_num";
+    public static final String RECOMMEDN= "recommend_virtual_num";
+
 }

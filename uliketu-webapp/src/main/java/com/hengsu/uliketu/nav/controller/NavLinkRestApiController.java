@@ -1,5 +1,6 @@
 package com.hengsu.uliketu.nav.controller;
 
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.core.vo.ReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,7 @@ public class NavLinkRestApiController {
      * @param pageable
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/nav/{columnId}/navLinks", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<NavLinkModel>>> listNavLinks(@PathVariable Long columnId,
                                                                              Pageable pageable) {

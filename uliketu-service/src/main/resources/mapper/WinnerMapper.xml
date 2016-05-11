@@ -3,13 +3,12 @@
 <mapper namespace="com.hengsu.uliketu.mall.repository.WinnerRepository" >
   <resultMap id="BaseResultMap" type="com.hengsu.uliketu.mall.entity.Winner" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="shopping_id" property="shoppingId" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_id, shopping_id, user_id, create_time
+    id, shopping_id, user_id, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -22,19 +21,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
-    insert into mall_winner (id, goods_id, shopping_id, 
-      user_id, create_time)
-    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{shoppingId,jdbcType=BIGINT}, 
-      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP})
+    insert into mall_winner (id, shopping_id, user_id, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{shoppingId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
     insert into mall_winner
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="goodsId != null" >
-        goods_id,
       </if>
       <if test="shoppingId != null" >
         shopping_id,
@@ -50,9 +46,6 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="goodsId != null" >
-        #{goodsId,jdbcType=BIGINT},
-      </if>
       <if test="shoppingId != null" >
         #{shoppingId,jdbcType=BIGINT},
       </if>
@@ -67,9 +60,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
     update mall_winner
     <set >
-      <if test="goodsId != null" >
-        goods_id = #{goodsId,jdbcType=BIGINT},
-      </if>
       <if test="shoppingId != null" >
         shopping_id = #{shoppingId,jdbcType=BIGINT},
       </if>
@@ -84,8 +74,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
     update mall_winner
-    set goods_id = #{goodsId,jdbcType=BIGINT},
-      shopping_id = #{shoppingId,jdbcType=BIGINT},
+    set shopping_id = #{shoppingId,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
@@ -95,9 +84,6 @@
     <where >
       <if test="id != null" >
         and id = #{id,jdbcType=BIGINT}
-      </if>
-      <if test="goodsId != null" >
-        and goods_id = #{goodsId,jdbcType=BIGINT}
       </if>
       <if test="shoppingId != null" >
         and shopping_id = #{shoppingId,jdbcType=BIGINT}
@@ -116,9 +102,6 @@
     from mall_winner where 1 = 1 
     <if test="param1.id != null" >
       and id = #{param1.id,jdbcType=BIGINT}
-    </if>
-    <if test="param1.goodsId != null" >
-      and goods_id = #{param1.goodsId,jdbcType=BIGINT}
     </if>
     <if test="param1.shoppingId != null" >
       and shopping_id = #{param1.shoppingId,jdbcType=BIGINT}

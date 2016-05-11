@@ -5,7 +5,14 @@ import java.util.Date;
 
 @MapClass("com.hengsu.uliketu.nav.entity.NavLink")
 public class NavLinkModel{
-	
+
+	public static final int LINK_TYPE_CPC=0;
+	public static final int LINK_TYPE_CPA=1;
+	public static final int LINK_TYPE_CPS=2;
+	public static final int LINK_REPEAT_FALSE=0;
+	public static final int LINK_REPEAT_TRUE=1;
+
+
 	private Long id;
 	private String name;
 	private String url;

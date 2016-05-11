@@ -1,5 +1,6 @@
 package com.hengsu.uliketu.nav.controller;
 
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.core.annotation.Permission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ public class ColumnRestApiController {
      * @param pageable
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/nav/columns", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<ColumnModel>>> columnList(Pageable pageable) {
         ColumnModel param = new ColumnModel();

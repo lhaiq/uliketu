@@ -1,6 +1,7 @@
 package com.hengsu.uliketu.mall.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.mall.vo.CategoryTreeVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class CategoryRestApiController {
      * @param id
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/mall/category/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<CategoryVO>> getCategoryById(@PathVariable Long id) {
         CategoryModel categoryModel = categoryService.findByPrimaryKey(id);
@@ -56,6 +58,7 @@ public class CategoryRestApiController {
      * @param pageable
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/mall/category/tree", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<List<CategoryTreeVO>>> tree(Pageable pageable) {
         List<CategoryModel> categoryModels = categoryService.selectParent(pageable);

@@ -3,6 +3,7 @@ package com.hengsu.uliketu.core.interceptor;
 import com.google.common.cache.Cache;
 import com.hengsu.uliketu.core.ErrorCode;
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
 import com.hengsu.uliketu.core.model.AuthModel;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                 ErrorCode.throwBusinessException(ErrorCode.AUTH_TOKEN_INVALID);
             }
 
+            //检查权限
+            checkPermission(authModel.getRole(),handler);
+
             //将UserId设置到request里面
             request.setAttribute("userId", authModel.getId());
         }
@@ -76,6 +80,14 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         return false;
+    }
+
+    private void checkPermission(Integer role, Object handler) {
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        Permission permission = handlerMethod.getMethodAnnotation(Permission.class);
+        if(!ArrayUtils.contains(permission.roles(),role)){
+            ErrorCode.throwBusinessException(ErrorCode.NO_PERMISSION);
+        }
     }
 
 }

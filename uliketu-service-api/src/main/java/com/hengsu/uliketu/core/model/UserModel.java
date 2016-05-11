@@ -15,7 +15,10 @@ public class UserModel {
 
     public final static int UNCERTIFIE = 0;
     public final static int CERTIFIEDING = 1;
+
     public final static int CERTIFIED = 2;
+
+
 
     private Long id;
     private String username;

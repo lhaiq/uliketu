@@ -33,21 +33,21 @@ public interface UserService {
 
     public long selectCount(UserModel userModel);
 
-    public List<UserModel> selectPage(UserModel userModel,Pageable pageable);
+    public List<UserModel> selectPage(UserModel userModel, Pageable pageable);
 
     public UserModel login(String account, String password);
 
-    public void modifyPasswd(String mail, String password,String identifyCode);
+    public void modifyPasswd(String mail, String password, String identifyCode);
 
-    public void validateAccount(String account,String type);
+    public void validateAccount(String account, String type);
 
-    public void validateIdentifyCode(String mail,String identifyCode);
+    public void validateIdentifyCode(String mail, String identifyCode);
 
     public void applyIdentifyCode(String mail);
 
-    public void addBalance(double balance);
+    public int addBalance(Long id, Long balance,Integer type,String desc);
 
-    public void addBlockBalance(double balance);
+    public int addBlockBalance(Long id, Long balance);
 
 
 }

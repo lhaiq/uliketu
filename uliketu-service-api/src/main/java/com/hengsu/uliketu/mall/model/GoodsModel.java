@@ -5,7 +5,11 @@ import java.util.Date;
 
 @MapClass("com.hengsu.uliketu.mall.entity.Goods")
 public class GoodsModel{
-	
+
+	public static final int GOODS_STATUS_UNSHELVE=0;
+	public static final int GOODS_STATUS_SHELVE=1;
+	public static final int GOODS_STATUS_PRESHELVE=2;
+
 	private Long id;
 	private Long categoryId;
 	private String name;

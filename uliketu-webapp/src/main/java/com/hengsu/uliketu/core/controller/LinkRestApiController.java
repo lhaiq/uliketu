@@ -1,5 +1,6 @@
 package com.hengsu.uliketu.core.controller;
 
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,7 @@ public class LinkRestApiController {
 	 * 链接列表
 	 * @return
 	 */
+	@IgnoreAuth
 	@RequestMapping(value = "/links", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<Page<LinkModel>>> listLink(Pageable pageable){
 		LinkModel param = new LinkModel();

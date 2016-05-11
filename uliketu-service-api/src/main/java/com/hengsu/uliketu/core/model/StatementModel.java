@@ -5,7 +5,13 @@ import java.util.Date;
 
 @MapClass("com.hengsu.uliketu.core.entity.Statement")
 public class StatementModel{
-	
+
+	public static final int RECOMMEND=0;
+	public static final int RECOMMEND_RATE=1;
+	public static final int NAV=2;
+	public static final int GOODS=3;
+	public static final int CASH=4;
+
 	private Integer id;
 	private Long userid;
 	private Long num;

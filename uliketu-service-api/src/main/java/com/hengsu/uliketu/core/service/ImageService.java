@@ -19,5 +19,9 @@ public interface ImageService{
 	public int deleteByPrimaryKey(Long id);
 	
 	public long selectCount(ImageModel imageModel);
+
+	public long uploadImage(ImageModel imageModel);
+
+	public ImageModel findById(Long id);
 	
 }

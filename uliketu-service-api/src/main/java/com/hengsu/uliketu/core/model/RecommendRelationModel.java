@@ -5,7 +5,9 @@ import java.util.Date;
 
 @MapClass("com.hengsu.uliketu.core.entity.RecommendRelation")
 public class RecommendRelationModel{
-	
+
+	public static final Integer RECOMMEDN_STATUS_USED=1;
+
 	private Long id;
 	private Long userId;
 	private Long recommendId;

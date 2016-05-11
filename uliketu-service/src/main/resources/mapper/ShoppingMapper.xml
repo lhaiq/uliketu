@@ -7,9 +7,10 @@
     <result column="periods" property="periods" jdbcType="INTEGER" />
     <result column="remain_num" property="remainNum" jdbcType="BIGINT" />
     <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_id, periods, remain_num, finish_time
+    id, goods_id, periods, remain_num, finish_time, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.hengsu.uliketu.mall.entity.Shopping" >
     insert into mall_shopping (id, goods_id, periods, 
-      remain_num, finish_time)
+      remain_num, finish_time, status
+      )
     values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{periods,jdbcType=INTEGER}, 
-      #{remainNum,jdbcType=BIGINT}, #{finishTime,jdbcType=TIMESTAMP})
+      #{remainNum,jdbcType=BIGINT}, #{finishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hengsu.uliketu.mall.entity.Shopping" >
     insert into mall_shopping
@@ -45,6 +48,9 @@
       <if test="finishTime != null" >
         finish_time,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +67,9 @@
       </if>
       <if test="finishTime != null" >
         #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -79,6 +88,9 @@
       <if test="finishTime != null" >
         finish_time = #{finishTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -87,7 +99,8 @@
     set goods_id = #{goodsId,jdbcType=BIGINT},
       periods = #{periods,jdbcType=INTEGER},
       remain_num = #{remainNum,jdbcType=BIGINT},
-      finish_time = #{finishTime,jdbcType=TIMESTAMP}
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.mall.entity.Shopping" >
@@ -107,6 +120,9 @@
       </if>
       <if test="finishTime != null" >
         and finish_time = #{finishTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
       </if>
     </where>
   </select>
@@ -129,6 +145,9 @@
     <if test="param1.finishTime != null" >
       and finish_time = #{param1.finishTime,jdbcType=TIMESTAMP}
     </if>
+    <if test="param1.status != null" >
+      and status = #{param1.status,jdbcType=INTEGER}
+    </if>
     <if test="param2.sort != null" >
       order by 
       <foreach collection="param2.sort" item="order" separator="," >
@@ -139,4 +158,9 @@
       limit ${param2.offset}, ${param2.pageSize}
     </if>
   </select>
+
+  <delete id="reduceRepertory" parameterType="java.lang.Long">
+    UPDATE  mall_shopping set remain_num=remain_num-1
+    where id = #{id,jdbcType=BIGINT} and remain_num>0
+  </delete>
 </mapper>

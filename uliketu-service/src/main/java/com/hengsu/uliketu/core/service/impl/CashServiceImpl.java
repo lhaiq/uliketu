@@ -1,8 +1,10 @@
 package com.hengsu.uliketu.core.service.impl;
 
 import com.hengsu.uliketu.core.Consts;
+import com.hengsu.uliketu.core.model.StatementModel;
 import com.hengsu.uliketu.core.model.UserModel;
 import com.hengsu.uliketu.core.service.ConfService;
+import com.hengsu.uliketu.core.service.MessageService;
 import com.hengsu.uliketu.core.service.UserService;
 
 import static com.hengsu.uliketu.core.ErrorCode.*;
@@ -23,6 +25,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CashServiceImpl implements CashService {
@@ -38,6 +41,9 @@ public class CashServiceImpl implements CashService {
 
     @Autowired
     private ConfService confService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Transactional
     @Override
@@ -91,8 +97,8 @@ public class CashServiceImpl implements CashService {
         }
 
         //锁定用户的提现余额
-        userService.addBlockBalance(cashModel.getBalance());
-        userService.addBalance(cashModel.getBalance() * (-1));
+        userService.addBlockBalance(userModel.getId(),cashModel.getBalance());
+        userService.addBalance(userModel.getId(),cashModel.getBalance() * (-1),StatementModel.CASH,"提现锁定");
 
         //配置文件
         double poundage = confService.findDouble(Consts.VIRTUAL_COIN_EXCHANGE_POUNDAGE);
@@ -119,7 +125,7 @@ public class CashServiceImpl implements CashService {
         CashModel cashModel = findByPrimaryKey(id);
 
         //减少用户锁定余额
-        userService.addBlockBalance(cashModel.getBalance() * (-1));
+        userService.addBlockBalance(cashModel.getUserid(),cashModel.getBalance() * (-1));
 
         //更新状态
         CashModel param = new CashModel();
@@ -127,6 +133,10 @@ public class CashServiceImpl implements CashService {
         param.setFinishTime(new Date());
         param.setStatus(CashModel.STATUS_SUCCESS);
         updateByPrimaryKeySelective(param);
+
+        //通知用户
+        messageService.addMessage(Consts.AGREE_CASH,cashModel.getUserid());
+
     }
 
     @Transactional
@@ -136,10 +146,10 @@ public class CashServiceImpl implements CashService {
         CashModel cashModel = findByPrimaryKey(id);
 
         //减少用户锁定余额
-        userService.addBlockBalance(cashModel.getBalance() * (-1));
+        userService.addBlockBalance(cashModel.getUserid(),cashModel.getBalance() * (-1));
 
         //将虚拟币返回用户账户
-        userService.addBalance(cashModel.getBalance());
+        userService.addBalance(cashModel.getUserid(),cashModel.getBalance(), StatementModel.CASH,"提现失败");
 
         //更新状态
         CashModel param = new CashModel();
@@ -147,12 +157,20 @@ public class CashServiceImpl implements CashService {
         param.setFinishTime(new Date());
         param.setStatus(CashModel.STATUS_FAILURE);
         updateByPrimaryKeySelective(param);
+
+        //通知用户
+        messageService.addMessage(Consts.REFUSH_CASH,cashModel.getUserid());
     }
 
     @Override
     public List<CashModel> selectPage(CashModel cashModel, Pageable pageable) {
         List<Cash> cashs = cashRepo.selectPage(beanMapper.map(cashModel, Cash.class), pageable);
         return beanMapper.mapAsList(cashs, CashModel.class);
+    }
+
+    @Override
+    public Map selectGroupByStatus(Date startTime, Date endTime) {
+        return cashRepo.selectGroupByStatus(startTime,endTime);
     }
 
     @Transactional
@@ -165,13 +183,6 @@ public class CashServiceImpl implements CashService {
     @Override
     public int updateByPrimaryKeySelective(CashModel cashModel) {
         return cashRepo.updateByPrimaryKeySelective(beanMapper.map(cashModel, Cash.class));
-    }
-
-    public static void main(String[] args) {
-        BigDecimal b = new BigDecimal(86.64466666);
-        double f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        System.out.println(f1);
-
     }
 
 

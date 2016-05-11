@@ -2,6 +2,9 @@
 package com.hengsu.uliketu.core.service;
 
 import com.hengsu.uliketu.core.model.AdminModel;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface AdminService{
 	
@@ -18,5 +21,11 @@ public interface AdminService{
 	public int deleteByPrimaryKey(Long id);
 	
 	public long selectCount(AdminModel adminModel);
-	
+
+	public List<AdminModel> selectPage(AdminModel adminModel,Pageable pageable);
+
+	public void addAdmin(AdminModel adminModel);
+
+	public AdminModel adminLogin(AdminModel adminModel);
+
 }

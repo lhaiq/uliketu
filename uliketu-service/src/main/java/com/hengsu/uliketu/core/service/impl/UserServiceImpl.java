@@ -3,11 +3,14 @@ package com.hengsu.uliketu.core.service.impl;
 import static com.hengsu.uliketu.core.ErrorCode.*;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableMap;
 import com.hengsu.uliketu.core.Consts;
 import com.hengsu.uliketu.core.RandomUtil;
 import com.hengsu.uliketu.core.model.RecommendRelationModel;
+import com.hengsu.uliketu.core.model.StatementModel;
 import com.hengsu.uliketu.core.service.ConfService;
 import com.hengsu.uliketu.core.service.RecommendRelationService;
+import com.hengsu.uliketu.core.service.StatementService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import com.hkntv.pylon.core.beans.mapping.BeanMapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,8 +45,11 @@ public class UserServiceImpl implements UserService {
     private ConfService confService;
 
     @Autowired
+    private StatementService statementService;
+
+    @Autowired
     @Qualifier("identifyCodeCache")
-    private Cache<String,String> identifyCodeCache;
+    private Cache<String, String> identifyCodeCache;
 
     @Transactional
     @Override
@@ -63,9 +70,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserModel userModel) {
 
-        validateAccount(userModel.getUsername(),UserModel.ACCOUNT_TYPE_USERNAME);
-        validateAccount(userModel.getMail(),UserModel.ACCOUNT_TYPE_MAIL);
-        validateAccount(userModel.getUsername(),UserModel.ACCOUNT_TYPE_PHONE);
+        validateAccount(userModel.getUsername(), UserModel.ACCOUNT_TYPE_USERNAME);
+        validateAccount(userModel.getMail(), UserModel.ACCOUNT_TYPE_MAIL);
+        validateAccount(userModel.getUsername(), UserModel.ACCOUNT_TYPE_PHONE);
 
         UserModel recommendUser = null;
         //检测推荐人是否存在
@@ -110,22 +117,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel findByUserName(String username) {
-        return beanMapper.map(userRepo.selectByUserName(username),UserModel.class);
+        return beanMapper.map(userRepo.selectByUserName(username), UserModel.class);
     }
 
     @Override
     public UserModel findByPhone(String phone) {
-        return beanMapper.map(userRepo.selectByPhone(phone),UserModel.class);
+        return beanMapper.map(userRepo.selectByPhone(phone), UserModel.class);
     }
 
     @Override
     public UserModel findByMail(String mail) {
-        return beanMapper.map(userRepo.selectByMail(mail),UserModel.class);
+        return beanMapper.map(userRepo.selectByMail(mail), UserModel.class);
     }
 
     @Override
     public UserModel findByRandomId(String randomId) {
-        return beanMapper.map(userRepo.selectByRandomId(randomId),UserModel.class);
+        return beanMapper.map(userRepo.selectByRandomId(randomId), UserModel.class);
     }
 
     @Transactional(readOnly = true)
@@ -232,15 +239,35 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void addBalance(double balance) {
+    public int addBalance(Long id, Long balance, Integer type, String desc) {
+        Map param = ImmutableMap.of("id", id, "balance", balance);
+        int ret = userRepo.addBalance(param);
+        if (ret == 0) {
+            throwBusinessException(BALANCE_NOT_ENOUGH);
+        }
 
+
+        //创建流水
+        StatementModel statementModel = new StatementModel();
+        statementModel.setCreateTime(new Date());
+        statementModel.setDescription(desc);
+        statementModel.setNum(balance);
+        statementModel.setUserid(id);
+        statementModel.setType(type);
+
+        statementService.createSelective(statementModel);
+
+
+        return ret;
     }
 
     @Transactional
     @Override
-    public void addBlockBalance(double balance) {
-
+    public int addBlockBalance(Long id, Long balance) {
+        Map param = ImmutableMap.of("id", id, "balance", balance);
+        return userRepo.addBlockBalance(param);
     }
+
 
     @Transactional
     @Override

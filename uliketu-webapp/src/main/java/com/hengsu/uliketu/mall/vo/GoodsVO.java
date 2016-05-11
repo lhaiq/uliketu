@@ -16,7 +16,6 @@ public class GoodsVO{
 	private Integer type;
 	private Integer periods;
 	private Integer excutePeriods;
-	private Integer status;
 	private Date addTime;
 	private Integer sort;
 		
@@ -99,14 +98,7 @@ public class GoodsVO{
 	public Integer getExcutePeriods(){
 		return this.excutePeriods;
 	}
-		
-	public void setStatus(Integer status){
-		this.status = status;
-	}
-	
-	public Integer getStatus(){
-		return this.status;
-	}
+
 		
 	public void setAddTime(Date addTime){
 		this.addTime = addTime;

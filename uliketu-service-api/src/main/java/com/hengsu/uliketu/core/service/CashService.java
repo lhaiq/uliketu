@@ -4,11 +4,11 @@ package com.hengsu.uliketu.core.service;
 import com.hengsu.uliketu.core.model.CashModel;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface CashService {
-
-
 
     public int create(CashModel cashModel);
 
@@ -32,6 +32,8 @@ public interface CashService {
     public void refuseCash(Long id);
 
     public List<CashModel> selectPage(CashModel cashModel, Pageable pageable);
+
+    public Map selectGroupByStatus(Date startTime,Date endTime);
 
 
 }

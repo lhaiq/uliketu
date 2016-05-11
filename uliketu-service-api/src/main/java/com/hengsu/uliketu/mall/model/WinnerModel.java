@@ -7,7 +7,6 @@ import java.util.Date;
 public class WinnerModel{
 	
 	private Long id;
-	private Long goodsId;
 	private Long shoppingId;
 	private Long userId;
 	private Date createTime;
@@ -18,14 +17,6 @@ public class WinnerModel{
 	
 	public Long getId(){
 		return this.id;
-	}
-		
-	public void setGoodsId(Long goodsId){
-		this.goodsId = goodsId;
-	}
-	
-	public Long getGoodsId(){
-		return this.goodsId;
 	}
 		
 	public void setShoppingId(Long shoppingId){

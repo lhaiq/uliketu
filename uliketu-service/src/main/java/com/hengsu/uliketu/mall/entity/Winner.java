@@ -5,8 +5,6 @@ import java.util.Date;
 public class Winner {
     private Long id;
 
-    private Long goodsId;
-
     private Long shoppingId;
 
     private Long userId;
@@ -19,14 +17,6 @@ public class Winner {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Long goodsId) {
-        this.goodsId = goodsId;
     }
 
     public Long getShoppingId() {

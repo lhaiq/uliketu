@@ -1,88 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hengsu.uliketu.nav.repository.LinkClickRepository" >
-  <resultMap id="BaseResultMap" type="com.hengsu.uliketu.nav.entity.LinkClick" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="link_id" property="linkId" jdbcType="BIGINT" />
-    <result column="click_time" property="clickTime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.hengsu.uliketu.nav.repository.LinkClickRepository">
+    <resultMap id="BaseResultMap" type="com.hengsu.uliketu.nav.entity.LinkClick">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="link_id" property="linkId" jdbcType="BIGINT"/>
+        <result column="click_time" property="clickTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="CountResultMap" type="com.hengsu.uliketu.nav.entity.LinkClickCount">
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="link_id" property="linkId" jdbcType="BIGINT"/>
+        <result column="count" property="count" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, user_id, link_id, click_time, status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from nav_link_click
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <sql id="Count_ResultMap_List">
+         user_id, link_id, count
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from nav_link_click
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from nav_link_click
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.hengsu.uliketu.nav.entity.LinkClick" >
+    <insert id="insert" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
     insert into nav_link_click (id, user_id, link_id, 
       click_time, status)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{linkId,jdbcType=BIGINT}, 
       #{clickTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.hengsu.uliketu.nav.entity.LinkClick" >
-    insert into nav_link_click
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="linkId != null" >
-        link_id,
-      </if>
-      <if test="clickTime != null" >
-        click_time,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="linkId != null" >
-        #{linkId,jdbcType=BIGINT},
-      </if>
-      <if test="clickTime != null" >
-        #{clickTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.nav.entity.LinkClick" >
-    update nav_link_click
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="linkId != null" >
-        link_id = #{linkId,jdbcType=BIGINT},
-      </if>
-      <if test="clickTime != null" >
-        click_time = #{clickTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.nav.entity.LinkClick" >
+    <insert id="insertSelective" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
+        insert into nav_link_click
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="linkId != null">
+                link_id,
+            </if>
+            <if test="clickTime != null">
+                click_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="linkId != null">
+                #{linkId,jdbcType=BIGINT},
+            </if>
+            <if test="clickTime != null">
+                #{clickTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
+        update nav_link_click
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="linkId != null">
+                link_id = #{linkId,jdbcType=BIGINT},
+            </if>
+            <if test="clickTime != null">
+                click_time = #{clickTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
     update nav_link_click
     set user_id = #{userId,jdbcType=BIGINT},
       link_id = #{linkId,jdbcType=BIGINT},
@@ -90,53 +98,74 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.nav.entity.LinkClick" >
-    select count(*) from nav_link_click
-    <where >
-      <if test="id != null" >
-        and id = #{id,jdbcType=BIGINT}
-      </if>
-      <if test="userId != null" >
-        and user_id = #{userId,jdbcType=BIGINT}
-      </if>
-      <if test="linkId != null" >
-        and link_id = #{linkId,jdbcType=BIGINT}
-      </if>
-      <if test="clickTime != null" >
-        and click_time = #{clickTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="status != null" >
-        and status = #{status,jdbcType=INTEGER}
-      </if>
-    </where>
-  </select>
-  <select id="selectPage" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from nav_link_click where 1 = 1 
-    <if test="param1.id != null" >
-      and id = #{param1.id,jdbcType=BIGINT}
-    </if>
-    <if test="param1.userId != null" >
-      and user_id = #{param1.userId,jdbcType=BIGINT}
-    </if>
-    <if test="param1.linkId != null" >
-      and link_id = #{param1.linkId,jdbcType=BIGINT}
-    </if>
-    <if test="param1.clickTime != null" >
-      and click_time = #{param1.clickTime,jdbcType=TIMESTAMP}
-    </if>
-    <if test="param1.status != null" >
-      and status = #{param1.status,jdbcType=INTEGER}
-    </if>
-    <if test="param2.sort != null" >
-      order by 
-      <foreach collection="param2.sort" item="order" separator="," >
-        ${order.property} ${order.direction}
-      </foreach>
-    </if>
-    <if test="param2.offset >= 0 and param2.pageSize > 0" >
-      limit ${param2.offset}, ${param2.pageSize}
-    </if>
-  </select>
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
+        select count(*) from nav_link_click
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="linkId != null">
+                and link_id = #{linkId,jdbcType=BIGINT}
+            </if>
+            <if test="clickTime != null">
+                and click_time = #{clickTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nav_link_click where 1 = 1
+        <if test="param1.id != null">
+            and id = #{param1.id,jdbcType=BIGINT}
+        </if>
+        <if test="param1.userId != null">
+            and user_id = #{param1.userId,jdbcType=BIGINT}
+        </if>
+        <if test="param1.linkId != null">
+            and link_id = #{param1.linkId,jdbcType=BIGINT}
+        </if>
+        <if test="param1.clickTime != null">
+            and click_time = #{param1.clickTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="param1.status != null">
+            and status = #{param1.status,jdbcType=INTEGER}
+        </if>
+        <if test="param2.sort != null">
+            order by
+            <foreach collection="param2.sort" item="order" separator=",">
+                ${order.property} ${order.direction}
+            </foreach>
+        </if>
+        <if test="param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+
+
+    <select id="selectByTime" resultMap="CountResultMap">
+        select
+        <include refid="Count_ResultMap_List"/>
+        from nav_link_click
+        and click_time &gt;= #{param1,jdbcType=TIMESTAMP}
+        and click_time &lt; #{param2,jdbcType=TIMESTAMP}
+        and status = 0
+        group by
+
+    </select>
+
+    <update id="updateStatusByTime">
+        update nav_link_click
+        <set>
+            status = 1,
+        </set>
+        where click_time &gt;= #{param1,jdbcType=TIMESTAMP}
+        and and click_time &lt; #{param2,jdbcType=TIMESTAMP}
+    </update>
 </mapper>

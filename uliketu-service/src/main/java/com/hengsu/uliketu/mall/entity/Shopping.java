@@ -12,7 +12,7 @@ public class Shopping {
     private Long remainNum;
 
     private Date finishTime;
-
+    private Integer status;
     public Long getId() {
         return id;
     }
@@ -51,5 +51,13 @@ public class Shopping {
 
     public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStatus() {
+        return status;
     }
 }

@@ -9,6 +9,7 @@ public class AdminVO{
 	private String name;
 	private String password;
 	private Integer role;
+	private String authCode;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -41,6 +42,12 @@ public class AdminVO{
 	public Integer getRole(){
 		return this.role;
 	}
-		
-		
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
 }

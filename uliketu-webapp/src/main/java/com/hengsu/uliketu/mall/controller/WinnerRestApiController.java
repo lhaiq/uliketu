@@ -45,21 +45,5 @@ public class WinnerRestApiController {
 		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
 		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/mall/winner/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<ResponseEnvelope<Integer>> deleteWinnerByPrimaryKey(@PathVariable Long id){
-		Integer  result = winnerService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/mall/winner/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ResponseEnvelope<Integer>> updateWinnerByPrimaryKeySelective(@PathVariable Long id, @RequestBody WinnerVO winnerVO){
-		WinnerModel winnerModel = beanMapper.map(winnerVO, WinnerModel.class);
-		winnerModel.setId(id);
-		Integer  result = winnerService.updateByPrimaryKeySelective(winnerModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
-	
+
 }

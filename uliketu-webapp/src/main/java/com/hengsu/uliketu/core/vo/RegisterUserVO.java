@@ -15,6 +15,7 @@ public class RegisterUserVO {
     private String mail;
     @NotEmpty
     private String phone;
+    private String randomId;
 
     public String getMail() {
         return mail;
@@ -46,5 +47,13 @@ public class RegisterUserVO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setRandomId(String randomId) {
+        this.randomId = randomId;
+    }
+
+    public String getRandomId() {
+        return randomId;
     }
 }

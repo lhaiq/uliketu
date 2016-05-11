@@ -364,4 +364,14 @@
     from user
     where random_id = #{randomId,jdbcType=VARCHAR}
   </select>
+
+  <delete id="addBalance" >
+    update  user set balance=balance + #{balance,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="addBlockBalance" >
+    update  user set balance=balance + #{balance,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
 </mapper>

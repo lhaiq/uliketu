@@ -6,11 +6,13 @@ import com.hengsu.uliketu.core.model.AuthModel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.TimeUnit;
 
 
 @Configuration
+@EnableAsync
 public class CacheConfig {
 
     @Bean
@@ -18,7 +20,7 @@ public class CacheConfig {
     public Cache<String, AuthModel> sessionCache() {
         Cache<String, AuthModel> cache = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES).build();
-        AuthModel authModel = new AuthModel(1L,1);
+        AuthModel authModel = new AuthModel(1L,1,0);
         //TODO 去掉
         cache.put("aaaaa",authModel);
         return cache;

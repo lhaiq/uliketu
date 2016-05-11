@@ -1,9 +1,15 @@
 package com.hengsu.uliketu.core.controller;
 
 import com.google.common.cache.Cache;
+import com.hengsu.uliketu.core.Consts;
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.core.model.AuthModel;
+import com.hengsu.uliketu.core.service.MessageService;
 import com.hengsu.uliketu.core.vo.*;
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.OpenID;
+import com.qq.connect.javabeans.AccessToken;
+import com.qq.connect.oauth.Oauth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +30,10 @@ import com.hkntv.pylon.web.rest.annotation.RestApiController;
 import com.hengsu.uliketu.core.service.UserService;
 import com.hengsu.uliketu.core.model.UserModel;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestApiController
@@ -40,6 +49,9 @@ public class UserRestApiController {
     private UserService userService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     @Qualifier("sessionCache")
     private Cache<String, AuthModel> sessionCache;
 
@@ -53,7 +65,7 @@ public class UserRestApiController {
     public ResponseEntity<ResponseEnvelope<UserVO>> getUserById(@Value("#{request.getAttribute('userId')}") Long userId) {
         UserModel userModel = userService.findByPrimaryKey(userId);
         UserVO userVO = beanMapper.map(userModel, UserVO.class);
-        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(userVO,true);
+        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(userVO, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -65,10 +77,10 @@ public class UserRestApiController {
      */
     @IgnoreAuth
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public ResponseEntity<ResponseEnvelope<String>> registerUser(@Valid@RequestBody RegisterUserVO userVO) {
+    public ResponseEntity<ResponseEnvelope<String>> registerUser(@Valid @RequestBody RegisterUserVO userVO) {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         userService.registerUser(userModel);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -84,7 +96,7 @@ public class UserRestApiController {
     public ResponseEntity<ResponseEnvelope<String>> validateAccount(@RequestParam String account,
                                                                     @RequestParam String type) {
         userService.validateAccount(account, type);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -101,11 +113,37 @@ public class UserRestApiController {
         UserModel userModel = userService.login(loginUser.getAccount(), loginUser.getPassword());
 
         //保存authcode
-        AuthModel authModel = new AuthModel(userModel.getId(), AuthModel.ROLE_USER);
+        AuthModel authModel = new AuthModel(userModel.getId(), AuthModel.ROLE_USER,userModel.getBlackStatus());
         sessionCache.put(userModel.getAuthCode(), authModel);
 
-        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(beanMapper.map(userModel,UserVO.class),true);
+        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(beanMapper.map(userModel, UserVO.class), true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+
+    @IgnoreAuth
+    @RequestMapping(value = "/user/qqlogin", method = RequestMethod.GET)
+    public void qqLogin(HttpServletRequest request) throws IOException {
+
+        try {
+            AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
+
+            if (accessTokenObj.getAccessToken().equals("")) {
+//                我们的网站被CSRF攻击了或者用户取消了授权
+//                做一些数据统计工作
+                logger.error("没有获取到响应参数");
+            } else {
+                String accessToken = accessTokenObj.getAccessToken();
+                long tokenExpireIn = accessTokenObj.getExpireIn();
+
+                // 利用获取到的accessToken 去获取当前用的openid -------- start
+                OpenID openIDObj = new OpenID(accessToken);
+                String openID = openIDObj.getUserOpenID();
+
+            }
+        } catch (QQConnectException e) {
+            logger.error("QQConnectException,", e);
+        }
     }
 
     /**
@@ -118,7 +156,7 @@ public class UserRestApiController {
     @RequestMapping(value = "/user/applyidentify", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> applyIdentifyCode(@RequestParam String mail) {
         userService.applyIdentifyCode(mail);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -134,7 +172,7 @@ public class UserRestApiController {
                                                                      @RequestParam String code) {
         userService.validateIdentifyCode(mail, code);
 
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -152,7 +190,7 @@ public class UserRestApiController {
                 passwdModifyVO.getPassword(),
                 passwdModifyVO.getIdentifyCode());
 
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -165,7 +203,7 @@ public class UserRestApiController {
     @RequestMapping(value = "/admin/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteUserByPrimaryKey(@PathVariable Long id) {
         Integer result = userService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -182,7 +220,7 @@ public class UserRestApiController {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         userModel.setId(id);
         Integer result = userService.updateByPrimaryKeySelective(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -198,11 +236,12 @@ public class UserRestApiController {
         userModel.setId(id);
         userModel.setCertifie(UserModel.CERTIFIED);
         Integer result = userService.updateByPrimaryKeySelective(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
-    /**TODO 管理员再做
+    /**
+     * TODO 管理员再做
      * 添加用户
      *
      * @param userVO
@@ -212,7 +251,7 @@ public class UserRestApiController {
     public ResponseEntity<ResponseEnvelope<Integer>> addUser(@Validated @RequestBody UserVO userVO) {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         Integer result = userService.createSelective(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -231,7 +270,7 @@ public class UserRestApiController {
         userModel.setBlockBalance(0L);
         userModel.setBlackStatus(UserModel.BLACK_YES);
         Integer result = userService.updateByPrimaryKeySelective(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -249,8 +288,8 @@ public class UserRestApiController {
         param.setBlackStatus(UserModel.BLACK_YES);
         List<UserModel> userModels = userService.selectPage(param, pageable);
         Long count = userService.selectCount(param);
-        Page<UserVO> pages = new PageImpl<>(beanMapper.mapAsList(userModels,UserVO.class), pageable, count);
-        ResponseEnvelope<Page<UserVO>> responseEnv = new ResponseEnvelope<>(pages,true);
+        Page<UserVO> pages = new PageImpl<>(beanMapper.mapAsList(userModels, UserVO.class), pageable, count);
+        ResponseEnvelope<Page<UserVO>> responseEnv = new ResponseEnvelope<>(pages, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -262,13 +301,13 @@ public class UserRestApiController {
      */
     @RequestMapping(value = "/admin/certifieusers", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<UserVO>>> listCertifieUsers(@RequestParam int certifieStatus,
-                                                                               Pageable pageable) {
+                                                                            Pageable pageable) {
         UserModel param = new UserModel();
         param.setCertifie(certifieStatus);
         List<UserModel> userModels = userService.selectPage(param, pageable);
         Long count = userService.selectCount(param);
-        Page<UserVO> pages = new PageImpl<>(beanMapper.mapAsList(userModels,UserVO.class), pageable, count);
-        ResponseEnvelope<Page<UserVO>> responseEnv = new ResponseEnvelope<>(pages,true);
+        Page<UserVO> pages = new PageImpl<>(beanMapper.mapAsList(userModels, UserVO.class), pageable, count);
+        ResponseEnvelope<Page<UserVO>> responseEnv = new ResponseEnvelope<>(pages, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -285,7 +324,7 @@ public class UserRestApiController {
         List<UserModel> userModels = userService.selectPage(param, pageable);
         Long count = userService.selectCount(param);
         Page<UserModel> pages = new PageImpl<>(userModels, pageable, count);
-        ResponseEnvelope<Page<UserModel>> responseEnv = new ResponseEnvelope<>(pages,true);
+        ResponseEnvelope<Page<UserModel>> responseEnv = new ResponseEnvelope<>(pages, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -302,12 +341,14 @@ public class UserRestApiController {
         userModel.setId(id);
         userModel.setCertifie(UserModel.CERTIFIED);
         Integer result = userService.updateByPrimaryKeySelective(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        messageService.addMessage(Consts.REAL_NAME,id);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
     /**
      * 用户详情
+     *
      * @param id
      * @return
      */
@@ -315,7 +356,7 @@ public class UserRestApiController {
     public ResponseEntity<ResponseEnvelope<UserVO>> detailUser(@PathVariable Long id) {
         UserModel userModel = userService.findByPrimaryKey(id);
         UserVO userVO = beanMapper.map(userModel, UserVO.class);
-        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(userVO,true);
+        ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(userVO, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 

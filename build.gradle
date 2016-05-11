@@ -119,8 +119,10 @@ project("uliketu-service") {
 		compile(project(":uliketu-service-api"))
 		compile(libraries.groovy_all)
 		compile(libraries.c3p0)
+		compile(libraries.commons_io)
 		compile(libraries.immortal_logback)
 		testCompile(libraries.pylon_test)
+		compile(fileTree(dir: "../lib", include: "*.jar"))
 		
 	}
 }
@@ -134,7 +136,7 @@ project("uliketu-webapp") {
 		compile(libraries.logback_classic)
 		compile(libraries.groovy_all)
 		compile(libraries.commons_fileupload)
-		compile(libraries.commons_io)
 		compile(libraries.pylon_web)
+		compile(libraries.poi)
 		compile(libraries.c3p0)	}
 }

@@ -3,11 +3,14 @@
 <mapper namespace="com.hengsu.uliketu.core.repository.ImageRepository" >
   <resultMap id="BaseResultMap" type="com.hengsu.uliketu.core.entity.Image" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="filename" property="filename" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="content_type" property="contentType" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, upload_time
+    id, filename, path, time, content_type, length
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -20,65 +23,106 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.hengsu.uliketu.core.entity.Image" >
-    insert into image (id, name, upload_time
+    insert into image (id, filename, path, 
+      time, content_type, length
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{uploadTime,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=BIGINT}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, #{length,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.Image" >
+  <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.Image" keyProperty="id" useGeneratedKeys="true">
     insert into image
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="filename != null" >
+        filename,
       </if>
-      <if test="uploadTime != null" >
-        upload_time,
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="contentType != null" >
+        content_type,
+      </if>
+      <if test="length != null" >
+        length,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
       </if>
-      <if test="uploadTime != null" >
-        #{uploadTime,jdbcType=TIMESTAMP},
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.uliketu.core.entity.Image" >
     update image
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="filename != null" >
+        filename = #{filename,jdbcType=VARCHAR},
       </if>
-      <if test="uploadTime != null" >
-        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.core.entity.Image" >
     update image
-    set name = #{name,jdbcType=VARCHAR},
-      upload_time = #{uploadTime,jdbcType=TIMESTAMP}
+    set filename = #{filename,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      length = #{length,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.Image" >
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.core.entity.Image" >
     select count(*) from image
     <where >
       <if test="id != null" >
         and id = #{id,jdbcType=BIGINT}
       </if>
-      <if test="name != null" >
-        and name = #{name,jdbcType=VARCHAR}
+      <if test="filename != null" >
+        and filename = #{filename,jdbcType=VARCHAR}
       </if>
-      <if test="uploadTime != null" >
-        and upload_time = #{uploadTime,jdbcType=TIMESTAMP}
+      <if test="path != null" >
+        and path = #{path,jdbcType=VARCHAR}
+      </if>
+      <if test="time != null" >
+        and time = #{time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="contentType != null" >
+        and content_type = #{contentType,jdbcType=VARCHAR}
+      </if>
+      <if test="length != null" >
+        and length = #{length,jdbcType=BIGINT}
       </if>
     </where>
   </select>
@@ -89,11 +133,20 @@
     <if test="param1.id != null" >
       and id = #{param1.id,jdbcType=BIGINT}
     </if>
-    <if test="param1.name != null" >
-      and name = #{param1.name,jdbcType=VARCHAR}
+    <if test="param1.filename != null" >
+      and filename = #{param1.filename,jdbcType=VARCHAR}
     </if>
-    <if test="param1.uploadTime != null" >
-      and upload_time = #{param1.uploadTime,jdbcType=TIMESTAMP}
+    <if test="param1.path != null" >
+      and path = #{param1.path,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.time != null" >
+      and time = #{param1.time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.contentType != null" >
+      and content_type = #{param1.contentType,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.length != null" >
+      and length = #{param1.length,jdbcType=BIGINT}
     </if>
     <if test="param2.sort != null" >
       order by 

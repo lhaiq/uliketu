@@ -112,7 +112,8 @@ ext {
        		
        		//groovy
        		groovy_all:					"org.codehaus.groovy:groovy-all:${groovyVersion}",
-       		
+			poi:						"org.apache.poi:poi:3.13",
+
 			pylon_core:					"com.hkntv.pylon:pylon-core:${pylonVersion}",
 			pylon_test:					"com.hkntv.pylon:pylon-test:${pylonVersion}",
 			pylon_data:					"com.hkntv.pylon:pylon-data:${pylonVersion}",
