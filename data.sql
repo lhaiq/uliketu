@@ -8,3 +8,4 @@ INSERT INTO `website` (`id`) VALUES ('0');
 INSERT INTO `website` (`id`) VALUES ('1');
 INSERT INTO `website` (`id`) VALUES ('2');
 
+INSERT INTO `admin` (`name`, `password`, `role`) VALUES ('admin', '0192023a7bbd73250516f069df18b500', '3');

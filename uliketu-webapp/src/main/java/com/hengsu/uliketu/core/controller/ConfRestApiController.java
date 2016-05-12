@@ -1,5 +1,7 @@
 package com.hengsu.uliketu.core.controller;
 
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import com.hengsu.uliketu.core.vo.ReturnCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -50,6 +52,7 @@ public class ConfRestApiController {
  	 * @param confVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/conf", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseEnvelope<String>> updateConfByPrimaryKeySelective(@RequestBody ConfVO confVO){
 		ConfModel confModel = beanMapper.map(confVO, ConfModel.class);

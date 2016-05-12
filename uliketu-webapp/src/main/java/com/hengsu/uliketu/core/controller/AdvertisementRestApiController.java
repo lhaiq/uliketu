@@ -1,5 +1,8 @@
 package com.hengsu.uliketu.core.controller;
 
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -40,6 +43,7 @@ public class AdvertisementRestApiController {
 	 * @param id
 	 * @return
 	 */
+	@IgnoreAuth
 	@RequestMapping(value = "/advertisement/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<AdvertisementVO>> getAdvertisementById(@PathVariable Integer id){
 		AdvertisementModel advertisementModel = advertisementService.findByPrimaryKey(id);
@@ -53,6 +57,7 @@ public class AdvertisementRestApiController {
 	 * @param pageable
 	 * @return
 	 */
+	@IgnoreAuth
 	@RequestMapping(value = "/advertisements", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<Page<AdvertisementModel>>> listAdvertisement(Pageable pageable){
 		AdvertisementModel param = new AdvertisementModel();
@@ -68,6 +73,7 @@ public class AdvertisementRestApiController {
 	 * @param advertisementVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/advertisement", method = RequestMethod.POST)
 	public ResponseEntity<ResponseEnvelope<Integer>> createAdvertisement(@RequestBody AdvertisementVO advertisementVO){
 		AdvertisementModel advertisementModel = beanMapper.map(advertisementVO, AdvertisementModel.class);
@@ -81,6 +87,7 @@ public class AdvertisementRestApiController {
 	 * @param id
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/advertisement/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseEnvelope<Integer>> deleteAdvertisementByPrimaryKey(@PathVariable Integer id){
 		Integer  result = advertisementService.deleteByPrimaryKey(id);
@@ -94,6 +101,7 @@ public class AdvertisementRestApiController {
 	 * @param advertisementVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/advertisement/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseEnvelope<Integer>> updateAdvertisementByPrimaryKeySelective(@PathVariable Integer id,
 																							  @RequestBody AdvertisementVO advertisementVO){

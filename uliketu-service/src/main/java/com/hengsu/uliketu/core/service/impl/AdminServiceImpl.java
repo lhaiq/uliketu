@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
         adminModel = adminModels.get(0);
         String authCode = RandomUtil.generateAuthToken();
         adminModel.setAuthCode(authCode);
-        return adminModels.get(0);
+        return adminModel;
     }
 
     @Transactional

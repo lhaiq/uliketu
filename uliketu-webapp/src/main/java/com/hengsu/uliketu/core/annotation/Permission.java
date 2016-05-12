@@ -11,9 +11,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface Permission {
 
-    public static final int USER=0;
-    public static final int ADMIN=0;
-    public static final int SUPER_ADMIN=0;
-
     int [] roles();
 }

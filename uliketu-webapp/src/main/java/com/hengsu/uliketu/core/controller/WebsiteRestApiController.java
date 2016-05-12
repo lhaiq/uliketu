@@ -1,5 +1,7 @@
 package com.hengsu.uliketu.core.controller;
 
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -49,6 +51,7 @@ public class WebsiteRestApiController {
 	 * @param websiteVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/website/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseEnvelope<Integer>> updateWebsiteByPrimaryKeySelective(@PathVariable Long id,
 																						@RequestBody WebsiteVO websiteVO){

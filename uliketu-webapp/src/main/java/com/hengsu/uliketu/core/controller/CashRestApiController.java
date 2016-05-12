@@ -1,27 +1,29 @@
 package com.hengsu.uliketu.core.controller;
 
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
+import com.hengsu.uliketu.core.model.CashModel;
+import com.hengsu.uliketu.core.service.CashService;
+import com.hengsu.uliketu.core.vo.CashVO;
 import com.hengsu.uliketu.core.vo.ReturnCode;
+import com.hkntv.pylon.core.beans.mapping.BeanMapper;
+import com.hkntv.pylon.web.rest.ResponseEnvelope;
+import com.hkntv.pylon.web.rest.annotation.RestApiController;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.hkntv.pylon.core.beans.mapping.BeanMapper;
-import com.hkntv.pylon.web.rest.ResponseEnvelope;
-import com.hkntv.pylon.web.rest.annotation.RestApiController;
-
-import com.hengsu.uliketu.core.service.CashService;
-import com.hengsu.uliketu.core.model.CashModel;
-import com.hengsu.uliketu.core.vo.CashVO;
-
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,6 +99,7 @@ public class CashRestApiController {
      * @param pageable
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/cashs", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<CashModel>>> getCashsByStatus(@RequestParam int status,
                                                                               Pageable pageable) {
@@ -115,6 +118,7 @@ public class CashRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/agreecash/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> agreeCash(@PathVariable Long id) {
         cashService.agreeCash(id);
@@ -128,6 +132,7 @@ public class CashRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/refusecash/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> refuseCash(@PathVariable Long id) {
         cashService.refuseCash(id);
@@ -136,8 +141,13 @@ public class CashRestApiController {
     }
 
 
+    /**
+     * 导出提现记录
+     * @return
+     */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/cash/export", method = RequestMethod.GET)
-    public ResponseEntity<ResponseEnvelope<String>> exportReport() {
+    public void exportReport(HttpServletResponse response) {
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
         // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
@@ -183,7 +193,7 @@ public class CashRestApiController {
 
         Map map = cashService.selectGroupByStatus(startTime,endTime);
         row.createCell(0).setCellValue("0");
-        row.createCell(1).setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(startTime));
+        row.createCell(1).setCellValue(new SimpleDateFormat("yyyy-MM").format(startTime));
         Double apply = (Double)map.get("apply");
         Double success = (Double)map.get("success");
         Double failure = (Double)map.get("failure");
@@ -192,10 +202,18 @@ public class CashRestApiController {
         row.createCell(4).setCellValue(success);
         row.createCell(5).setCellValue(failure);
         row.createCell(6).setCellValue("");
+        String fileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        try{
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + new String(fileName.getBytes("UTF-8"), "ISO8859-1") + ".xls");
+            response.setContentType("application/vnd.ms-excel");
+            OutputStream fout = response.getOutputStream();
+            wb.write(fout);
+            fout.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
-        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
 }

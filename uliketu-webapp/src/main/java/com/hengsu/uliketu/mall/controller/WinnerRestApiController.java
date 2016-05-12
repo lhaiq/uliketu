@@ -29,7 +29,12 @@ public class WinnerRestApiController {
 	
 	@Autowired
 	private WinnerService winnerService;
-	
+
+	/**
+	 * TODO
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/mall/winner/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<WinnerVO>> getWinnerById(@PathVariable Long id){
 		WinnerModel winnerModel = winnerService.findByPrimaryKey(id);

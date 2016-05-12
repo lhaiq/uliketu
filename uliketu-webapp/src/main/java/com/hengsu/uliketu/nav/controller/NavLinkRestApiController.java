@@ -1,6 +1,8 @@
 package com.hengsu.uliketu.nav.controller;
 
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import com.hengsu.uliketu.core.vo.ReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,7 @@ public class NavLinkRestApiController {
      * @param id
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/nav/navLink/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<NavLinkModel>> getNavLinkById(@PathVariable Long id) {
         NavLinkModel navLinkModel = navLinkService.findByPrimaryKey(id);
@@ -93,6 +96,7 @@ public class NavLinkRestApiController {
      * @param navLinkVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/navLink", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> createNavLink(@RequestBody NavLinkVO navLinkVO) {
         NavLinkModel navLinkModel = beanMapper.map(navLinkVO, NavLinkModel.class);
@@ -108,6 +112,7 @@ public class NavLinkRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/navLink/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteNavLinkByPrimaryKey(@PathVariable Long id) {
         Integer result = navLinkService.deleteByPrimaryKey(id);
@@ -123,6 +128,7 @@ public class NavLinkRestApiController {
      * @param navLinkVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/navLink/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<Integer>> updateNavLinkByPrimaryKeySelective(@PathVariable Long id,
                                                                                         @RequestBody NavLinkVO navLinkVO) {

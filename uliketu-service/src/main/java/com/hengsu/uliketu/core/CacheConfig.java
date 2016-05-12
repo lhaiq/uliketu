@@ -21,8 +21,10 @@ public class CacheConfig {
         Cache<String, AuthModel> cache = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES).build();
         AuthModel authModel = new AuthModel(1L,1,0);
-        //TODO 去掉
         cache.put("aaaaa",authModel);
+
+        AuthModel authModel1 = new AuthModel(1L,3,0);
+        cache.put("bbbbb",authModel1);
         return cache;
     }
 

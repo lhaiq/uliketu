@@ -2,6 +2,8 @@ package com.hengsu.uliketu.core.controller;
 
 import com.google.common.cache.Cache;
 import com.hengsu.uliketu.core.ErrorCode;
+import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
 import com.hengsu.uliketu.core.model.AuthModel;
 import com.hengsu.uliketu.core.model.UserModel;
 import com.hengsu.uliketu.core.vo.ReturnCode;
@@ -37,8 +39,6 @@ import java.util.List;
 @RestApiController
 @RequestMapping("/uliketu")
 public class AdminRestApiController {
-
-    private final Logger logger = LoggerFactory.getLogger(AdminRestApiController.class);
 
     @Autowired
     private BeanMapper beanMapper;
@@ -86,6 +86,7 @@ public class AdminRestApiController {
      * @param adminVO
      * @return
      */
+    @Permission(roles = AuthModel.ROLE_SUPER_ADMIN)
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<String>> createAdmin(@RequestBody AdminVO adminVO) {
         AdminModel adminModel = beanMapper.map(adminVO, AdminModel.class);
@@ -101,6 +102,7 @@ public class AdminRestApiController {
      * @param adminVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_SUPER_ADMIN,AuthModel.ROLE_ADMIN})
     @RequestMapping(value = "/admin/mypass", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> updateMyPass(@Value("#{request.getAttribute('userId')}") Long userId,
                                                                  @RequestBody UpdateAdminPassVO adminVO) {
@@ -125,11 +127,13 @@ public class AdminRestApiController {
      * @param adminVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/pass/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> updatePass(@PathVariable Long id,
                                                                @RequestBody AdminVO adminVO) {
         AdminModel adminModel = beanMapper.map(adminVO, AdminModel.class);
         adminModel.setId(id);
+        adminModel.setPassword(DigestUtils.md5Hex(adminVO.getPassword()));
         adminService.updateByPrimaryKeySelective(adminModel);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
@@ -141,14 +145,15 @@ public class AdminRestApiController {
      * @param adminVO
      * @return
      */
+    @IgnoreAuth
     @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-    public ResponseEntity<ResponseEnvelope<String>> adminLogin(
+    public ResponseEntity<ResponseEnvelope<AdminModel>> adminLogin(
             @RequestBody AdminVO adminVO) {
         AdminModel adminModel = beanMapper.map(adminVO, AdminModel.class);
         adminModel = adminService.adminLogin(adminModel);
         AuthModel authModel = new AuthModel(adminModel.getId(),adminModel.getRole(), UserModel.BLACK_NO);
         sessionCache.put(adminModel.getAuthCode(), authModel);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        ResponseEnvelope<AdminModel> responseEnv = new ResponseEnvelope<>(adminModel, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 
@@ -159,12 +164,14 @@ public class AdminRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteAdminByPrimaryKey(@PathVariable Long id) {
         Integer result = adminService.deleteByPrimaryKey(id);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
+
 
 
 }

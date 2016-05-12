@@ -1,6 +1,8 @@
 package com.hengsu.uliketu.core.controller;
 
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -69,6 +71,7 @@ public class LinkRestApiController {
 	 * @param linkVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/link", method = RequestMethod.POST)
 	public ResponseEntity<ResponseEnvelope<Integer>> createLink(@RequestBody LinkVO linkVO){
 		LinkModel linkModel = beanMapper.map(linkVO, LinkModel.class);
@@ -82,6 +85,7 @@ public class LinkRestApiController {
 	 * @param id
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/link/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseEnvelope<Integer>> deleteLinkByPrimaryKey(@PathVariable Integer id){
 		Integer  result = linkService.deleteByPrimaryKey(id);
@@ -95,6 +99,7 @@ public class LinkRestApiController {
 	 * @param linkVO
 	 * @return
 	 */
+	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
 	@RequestMapping(value = "/admin/link/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseEnvelope<Integer>> updateLinkByPrimaryKeySelective(@PathVariable Integer id,
 																					 @RequestBody LinkVO linkVO){

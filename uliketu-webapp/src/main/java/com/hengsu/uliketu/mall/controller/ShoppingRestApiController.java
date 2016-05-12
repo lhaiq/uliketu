@@ -31,7 +31,13 @@ public class ShoppingRestApiController {
 	
 	@Autowired
 	private ShoppingService shoppingService;
-	
+
+	/**
+	 * 购买商品
+	 * @param id
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "/mall/buy/shopping/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseEnvelope<String>> buyGoods(@PathVariable Long id,
 																 @Value("#{request.getAttribute('userId')}") Long userId){

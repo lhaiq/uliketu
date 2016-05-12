@@ -2,6 +2,7 @@ package com.hengsu.uliketu.nav.controller;
 
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
 import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,6 @@ public class ColumnRestApiController {
     @Autowired
     private ColumnService columnService;
 
-    @Permission(roles = {Permission.ADMIN, Permission.SUPER_ADMIN})
     @RequestMapping(value = "/nav/column/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<ColumnVO>> getColumnById(@PathVariable Long id) {
         ColumnModel columnModel = columnService.findByPrimaryKey(id);
@@ -68,7 +68,7 @@ public class ColumnRestApiController {
      * @param columnVO
      * @return
      */
-    @Permission(roles = {Permission.ADMIN, Permission.SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/column", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> createColumn(@RequestBody ColumnVO columnVO) {
         ColumnModel columnModel = beanMapper.map(columnVO, ColumnModel.class);
@@ -83,6 +83,7 @@ public class ColumnRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/column/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteColumnByPrimaryKey(@PathVariable Long id) {
         Integer result = columnService.deleteByPrimaryKey(id);
@@ -98,6 +99,7 @@ public class ColumnRestApiController {
      * @param columnVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/nav/column/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<Integer>> updateColumnByPrimaryKeySelective(@PathVariable Long id,
                                                                                        @RequestBody ColumnVO columnVO) {

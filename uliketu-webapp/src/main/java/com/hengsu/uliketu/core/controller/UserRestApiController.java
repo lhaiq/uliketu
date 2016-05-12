@@ -3,6 +3,7 @@ package com.hengsu.uliketu.core.controller;
 import com.google.common.cache.Cache;
 import com.hengsu.uliketu.core.Consts;
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
 import com.hengsu.uliketu.core.model.AuthModel;
 import com.hengsu.uliketu.core.service.MessageService;
 import com.hengsu.uliketu.core.vo.*;
@@ -200,6 +201,7 @@ public class UserRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteUserByPrimaryKey(@PathVariable Long id) {
         Integer result = userService.deleteByPrimaryKey(id);
@@ -241,12 +243,12 @@ public class UserRestApiController {
     }
 
     /**
-     * TODO 管理员再做
      * 添加用户
      *
      * @param userVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> addUser(@Validated @RequestBody UserVO userVO) {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
@@ -262,6 +264,7 @@ public class UserRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/addblacklist/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Integer>> addBlacklist(@PathVariable Long id) {
         UserModel userModel = new UserModel();
@@ -281,6 +284,7 @@ public class UserRestApiController {
      * @param pageable
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/blackusers", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<UserVO>>> listBlackUser(Pageable pageable) {
 
@@ -299,6 +303,7 @@ public class UserRestApiController {
      * @param pageable
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/certifieusers", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<UserVO>>> listCertifieUsers(@RequestParam int certifieStatus,
                                                                             Pageable pageable) {
@@ -317,6 +322,7 @@ public class UserRestApiController {
      * @param pageable
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Page<UserModel>>> listUser(Pageable pageable) {
 
@@ -335,6 +341,7 @@ public class UserRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/admin/passcertifie/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<Integer>> passCertifie(@PathVariable Long id) {
         UserModel userModel = new UserModel();

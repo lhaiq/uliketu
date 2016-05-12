@@ -1,27 +1,25 @@
 package com.hengsu.uliketu.mall.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
+import com.hengsu.uliketu.mall.model.CategoryModel;
+import com.hengsu.uliketu.mall.service.CategoryService;
 import com.hengsu.uliketu.mall.vo.CategoryTreeVO;
+import com.hengsu.uliketu.mall.vo.CategoryVO;
+import com.hkntv.pylon.core.beans.mapping.BeanMapper;
+import com.hkntv.pylon.web.rest.ResponseEnvelope;
+import com.hkntv.pylon.web.rest.annotation.RestApiController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.hkntv.pylon.core.beans.mapping.BeanMapper;
-import com.hkntv.pylon.web.rest.ResponseEnvelope;
-import com.hkntv.pylon.web.rest.annotation.RestApiController;
-
-import com.hengsu.uliketu.mall.service.CategoryService;
-import com.hengsu.uliketu.mall.model.CategoryModel;
-import com.hengsu.uliketu.mall.vo.CategoryVO;
 
 import java.util.List;
 
@@ -79,6 +77,7 @@ public class CategoryRestApiController {
      * @param categoryVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/category", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> createCategory(@RequestBody CategoryVO categoryVO) {
         CategoryModel categoryModel = beanMapper.map(categoryVO, CategoryModel.class);
@@ -93,6 +92,7 @@ public class CategoryRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/category/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteCategoryByPrimaryKey(@PathVariable Long id) {
         Integer result = categoryService.deleteByPrimaryKey(id);
@@ -106,6 +106,7 @@ public class CategoryRestApiController {
      * @param categoryVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/category/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<Integer>> updateCategoryByPrimaryKeySelective(@PathVariable Long id, @RequestBody CategoryVO categoryVO) {
         CategoryModel categoryModel = beanMapper.map(categoryVO, CategoryModel.class);

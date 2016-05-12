@@ -1,6 +1,8 @@
 package com.hengsu.uliketu.mall.controller;
 
 import com.hengsu.uliketu.core.annotation.IgnoreAuth;
+import com.hengsu.uliketu.core.annotation.Permission;
+import com.hengsu.uliketu.core.model.AuthModel;
 import com.hengsu.uliketu.core.vo.ReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +81,7 @@ public class GoodsRestApiController {
      * @param goodsVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> createGoods(@RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
@@ -92,6 +95,7 @@ public class GoodsRestApiController {
     /**
      * 保存并上架
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/saveAndShelve/goods", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<String>> saveAndShelve(@RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
@@ -106,6 +110,7 @@ public class GoodsRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/shelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> shelve(@PathVariable Long id) {
         goodsService.shelve(id);
@@ -117,6 +122,7 @@ public class GoodsRestApiController {
     /**
      * 下架
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/unShelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> unShelve(@PathVariable Long id) {
         goodsService.unShelve(id);
@@ -128,6 +134,7 @@ public class GoodsRestApiController {
     /**
      * 预下架
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/preUnShelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> preUnShelve(@PathVariable Long id) {
         goodsService.preUnShelve(id);
@@ -142,6 +149,7 @@ public class GoodsRestApiController {
      * @param id
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteGoodsByPrimaryKey(@PathVariable Long id) {
         Integer result = goodsService.deleteGoods(id);
@@ -157,6 +165,7 @@ public class GoodsRestApiController {
      * @param goodsVO
      * @return
      */
+    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> updateGoodsByPrimaryKeySelective(@PathVariable Long id,
                                                                                       @RequestBody GoodsVO goodsVO) {
