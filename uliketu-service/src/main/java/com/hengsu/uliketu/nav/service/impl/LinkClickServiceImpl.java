@@ -70,7 +70,7 @@ public class LinkClickServiceImpl implements LinkClickService {
 
     @Transactional(readOnly = true)
     @Override
-    public int selectCount(LinkClickModel linkClickModel) {
+    public long selectCount(LinkClickModel linkClickModel) {
         return linkClickRepo.selectCount(beanMapper.map(linkClickModel, LinkClick.class));
     }
 

@@ -20,7 +20,7 @@ public interface ColumnRepository {
 
     int updateByPrimaryKey(@Param("column") Column column);
 
-    int selectCount(@Param("column") Column column);
+    long selectCount(@Param("column") Column column);
 
     List<Column> selectPage(@Param("column") Column column, @Param("pageable") Pageable pageable);
 }

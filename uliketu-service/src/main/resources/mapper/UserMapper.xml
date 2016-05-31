@@ -14,39 +14,50 @@
     <result column="idphoto" property="idphoto" jdbcType="VARCHAR" />
     <result column="black_status" property="blackStatus" jdbcType="INTEGER" />
     <result column="certifie" property="certifie" jdbcType="INTEGER" />
-    <result column="baifubao_account" property="baifubaoAccount" jdbcType="VARCHAR" />
     <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="random_id" property="randomId" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="account_type" property="accountType" jdbcType="INTEGER" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account_id" property="accountId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, username, password, mail, phone, avatar, balance, block_balance, idnumber, idphoto, 
-    black_status, certifie, baifubao_account, register_time, nickname, random_id
+    id, username, password, mail, phone, avatar, balance, block_balance, idnumber, idphoto,
+    black_status, certifie, register_time, nickname, random_id, answer, real_name, gender,
+    age, address, account_type, account_name, account_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.hengsu.uliketu.core.entity.User" >
-    insert into user (id, username, password, 
-      mail, phone, avatar, 
-      balance, block_balance, idnumber, 
-      idphoto, black_status, certifie, 
-      baifubao_account, register_time, nickname, 
-      random_id)
-    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{balance,jdbcType=BIGINT}, #{blockBalance,jdbcType=BIGINT}, #{idnumber,jdbcType=VARCHAR}, 
-      #{idphoto,jdbcType=VARCHAR}, #{blackStatus,jdbcType=INTEGER}, #{certifie,jdbcType=INTEGER}, 
-      #{baifubaoAccount,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR}, 
-      #{randomId,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.hengsu.uliketu.core.entity.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into user (id, username, password,
+    mail, phone, avatar,
+    balance, block_balance, idnumber,
+    idphoto, black_status, certifie,
+    register_time, nickname, random_id,
+    answer, real_name, gender,
+    age, address, account_type,
+    account_name, account_id)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
+    #{balance,jdbcType=BIGINT}, #{blockBalance,jdbcType=BIGINT}, #{idnumber,jdbcType=VARCHAR},
+    #{idphoto,jdbcType=VARCHAR}, #{blackStatus,jdbcType=INTEGER}, #{certifie,jdbcType=INTEGER},
+    #{registerTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR}, #{randomId,jdbcType=VARCHAR},
+    #{answer,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
+    #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{accountType,jdbcType=INTEGER},
+    #{accountName,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hengsu.uliketu.core.entity.User" keyProperty="id" useGeneratedKeys="true">
     insert into user
@@ -87,9 +98,6 @@
       <if test="certifie != null" >
         certifie,
       </if>
-      <if test="baifubaoAccount != null" >
-        baifubao_account,
-      </if>
       <if test="registerTime != null" >
         register_time,
       </if>
@@ -98,6 +106,30 @@
       </if>
       <if test="randomId != null" >
         random_id,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="accountType != null" >
+        account_type,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="accountId != null" >
+        account_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -137,9 +169,6 @@
       <if test="certifie != null" >
         #{certifie,jdbcType=INTEGER},
       </if>
-      <if test="baifubaoAccount != null" >
-        #{baifubaoAccount,jdbcType=VARCHAR},
-      </if>
       <if test="registerTime != null" >
         #{registerTime,jdbcType=TIMESTAMP},
       </if>
@@ -148,6 +177,30 @@
       </if>
       <if test="randomId != null" >
         #{randomId,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -187,9 +240,6 @@
       <if test="certifie != null" >
         certifie = #{certifie,jdbcType=INTEGER},
       </if>
-      <if test="baifubaoAccount != null" >
-        baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR},
-      </if>
       <if test="registerTime != null" >
         register_time = #{registerTime,jdbcType=TIMESTAMP},
       </if>
@@ -199,26 +249,57 @@
       <if test="randomId != null" >
         random_id = #{randomId,jdbcType=VARCHAR},
       </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        account_type = #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hengsu.uliketu.core.entity.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      mail = #{mail,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      balance = #{balance,jdbcType=BIGINT},
-      block_balance = #{blockBalance,jdbcType=BIGINT},
-      idnumber = #{idnumber,jdbcType=VARCHAR},
-      idphoto = #{idphoto,jdbcType=VARCHAR},
-      black_status = #{blackStatus,jdbcType=INTEGER},
-      certifie = #{certifie,jdbcType=INTEGER},
-      baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      random_id = #{randomId,jdbcType=VARCHAR}
+    password = #{password,jdbcType=VARCHAR},
+    mail = #{mail,jdbcType=VARCHAR},
+    phone = #{phone,jdbcType=VARCHAR},
+    avatar = #{avatar,jdbcType=VARCHAR},
+    balance = #{balance,jdbcType=BIGINT},
+    block_balance = #{blockBalance,jdbcType=BIGINT},
+    idnumber = #{idnumber,jdbcType=VARCHAR},
+    idphoto = #{idphoto,jdbcType=VARCHAR},
+    black_status = #{blackStatus,jdbcType=INTEGER},
+    certifie = #{certifie,jdbcType=INTEGER},
+    register_time = #{registerTime,jdbcType=TIMESTAMP},
+    nickname = #{nickname,jdbcType=VARCHAR},
+    random_id = #{randomId,jdbcType=VARCHAR},
+    answer = #{answer,jdbcType=VARCHAR},
+    real_name = #{realName,jdbcType=VARCHAR},
+    gender = #{gender,jdbcType=INTEGER},
+    age = #{age,jdbcType=INTEGER},
+    address = #{address,jdbcType=VARCHAR},
+    account_type = #{accountType,jdbcType=INTEGER},
+    account_name = #{accountName,jdbcType=VARCHAR},
+    account_id = #{accountId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.core.entity.User" >
@@ -260,9 +341,6 @@
       <if test="certifie != null" >
         and certifie = #{certifie,jdbcType=INTEGER}
       </if>
-      <if test="baifubaoAccount != null" >
-        and baifubao_account = #{baifubaoAccount,jdbcType=VARCHAR}
-      </if>
       <if test="registerTime != null" >
         and register_time = #{registerTime,jdbcType=TIMESTAMP}
       </if>
@@ -272,12 +350,36 @@
       <if test="randomId != null" >
         and random_id = #{randomId,jdbcType=VARCHAR}
       </if>
+      <if test="answer != null" >
+        and answer = #{answer,jdbcType=VARCHAR}
+      </if>
+      <if test="realName != null" >
+        and real_name = #{realName,jdbcType=VARCHAR}
+      </if>
+      <if test="gender != null" >
+        and gender = #{gender,jdbcType=INTEGER}
+      </if>
+      <if test="age != null" >
+        and age = #{age,jdbcType=INTEGER}
+      </if>
+      <if test="address != null" >
+        and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="accountType != null" >
+        and account_type = #{accountType,jdbcType=INTEGER}
+      </if>
+      <if test="accountName != null" >
+        and account_name = #{accountName,jdbcType=VARCHAR}
+      </if>
+      <if test="accountId != null" >
+        and account_id = #{accountId,jdbcType=VARCHAR}
+      </if>
     </where>
   </select>
   <select id="selectPage" resultMap="BaseResultMap" >
-    select 
+    select
     <include refid="Base_Column_List" />
-    from user where 1 = 1 
+    from user where 1 = 1
     <if test="param1.id != null" >
       and id = #{param1.id,jdbcType=BIGINT}
     </if>
@@ -314,9 +416,6 @@
     <if test="param1.certifie != null" >
       and certifie = #{param1.certifie,jdbcType=INTEGER}
     </if>
-    <if test="param1.baifubaoAccount != null" >
-      and baifubao_account = #{param1.baifubaoAccount,jdbcType=VARCHAR}
-    </if>
     <if test="param1.registerTime != null" >
       and register_time = #{param1.registerTime,jdbcType=TIMESTAMP}
     </if>
@@ -326,8 +425,32 @@
     <if test="param1.randomId != null" >
       and random_id = #{param1.randomId,jdbcType=VARCHAR}
     </if>
+    <if test="param1.answer != null" >
+      and answer = #{param1.answer,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.realName != null" >
+      and real_name = #{param1.realName,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.gender != null" >
+      and gender = #{param1.gender,jdbcType=INTEGER}
+    </if>
+    <if test="param1.age != null" >
+      and age = #{param1.age,jdbcType=INTEGER}
+    </if>
+    <if test="param1.address != null" >
+      and address = #{param1.address,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.accountType != null" >
+      and account_type = #{param1.accountType,jdbcType=INTEGER}
+    </if>
+    <if test="param1.accountName != null" >
+      and account_name = #{param1.accountName,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.accountId != null" >
+      and account_id = #{param1.accountId,jdbcType=VARCHAR}
+    </if>
     <if test="param2.sort != null" >
-      order by 
+      order by
       <foreach collection="param2.sort" item="order" separator="," >
         ${order.property} ${order.direction}
       </foreach>

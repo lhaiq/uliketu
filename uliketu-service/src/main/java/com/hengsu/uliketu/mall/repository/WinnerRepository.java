@@ -20,7 +20,7 @@ public interface WinnerRepository {
 
     int updateByPrimaryKey(@Param("winner") Winner winner);
 
-    int selectCount(@Param("winner") Winner winner);
+    long selectCount(@Param("winner") Winner winner);
 
     List<Winner> selectPage(@Param("winner") Winner winner, @Param("pageable") Pageable pageable);
 }

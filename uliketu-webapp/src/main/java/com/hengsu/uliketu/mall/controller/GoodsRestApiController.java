@@ -26,7 +26,9 @@ import com.hengsu.uliketu.mall.model.GoodsModel;
 import com.hengsu.uliketu.mall.vo.GoodsVO;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestApiController
 @RequestMapping("/uliketu")
@@ -58,6 +60,7 @@ public class GoodsRestApiController {
 
     /**
      * 商品列表
+     *
      * @param categoryId
      * @param pageable
      * @return
@@ -76,12 +79,29 @@ public class GoodsRestApiController {
     }
 
     /**
+     * 可抢购的商品
+     *
+     * @param categoryIds
+     * @return
+     */
+    @IgnoreAuth
+    @RequestMapping(value = "/mall/shoppings", method = RequestMethod.POST)
+    public ResponseEntity<ResponseEnvelope<Map>> listShopping(@RequestBody List<Long> categoryIds) {
+        Map map = new HashMap<>();
+        for (Long categoryId : categoryIds) {
+            map.put(categoryId, goodsService.selectShopping(categoryId));
+        }
+        ResponseEnvelope<Map> responseEnv = new ResponseEnvelope<>(map, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+    /**
      * 添加商品
      *
      * @param goodsVO
      * @return
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<Integer>> createGoods(@RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
@@ -95,7 +115,7 @@ public class GoodsRestApiController {
     /**
      * 保存并上架
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/saveAndShelve/goods", method = RequestMethod.POST)
     public ResponseEntity<ResponseEnvelope<String>> saveAndShelve(@RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
@@ -107,10 +127,11 @@ public class GoodsRestApiController {
 
     /**
      * 上架
+     *
      * @param id
      * @return
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/shelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> shelve(@PathVariable Long id) {
         goodsService.shelve(id);
@@ -122,7 +143,7 @@ public class GoodsRestApiController {
     /**
      * 下架
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/unShelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> unShelve(@PathVariable Long id) {
         goodsService.unShelve(id);
@@ -134,7 +155,7 @@ public class GoodsRestApiController {
     /**
      * 预下架
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/preUnShelve/goods/{id}", method = RequestMethod.GET)
     public ResponseEntity<ResponseEnvelope<String>> preUnShelve(@PathVariable Long id) {
         goodsService.preUnShelve(id);
@@ -149,7 +170,7 @@ public class GoodsRestApiController {
      * @param id
      * @return
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseEnvelope<Integer>> deleteGoodsByPrimaryKey(@PathVariable Long id) {
         Integer result = goodsService.deleteGoods(id);
@@ -165,10 +186,10 @@ public class GoodsRestApiController {
      * @param goodsVO
      * @return
      */
-    @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/goods/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseEnvelope<String>> updateGoodsByPrimaryKeySelective(@PathVariable Long id,
-                                                                                      @RequestBody GoodsVO goodsVO) {
+                                                                                     @RequestBody GoodsVO goodsVO) {
         GoodsModel goodsModel = beanMapper.map(goodsVO, GoodsModel.class);
         goodsModel.setId(id);
         goodsService.updateGoods(goodsModel);

@@ -23,6 +23,7 @@ public class GoodsModel{
 	private Integer status;
 	private Date addTime;
 	private Integer sort;
+	private Long remainNum;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -127,6 +128,12 @@ public class GoodsModel{
 	public Integer getSort(){
 		return this.sort;
 	}
-		
-		
+
+	public void setRemainNum(Long remainNum) {
+		this.remainNum = remainNum;
+	}
+
+	public Long getRemainNum() {
+		return remainNum;
+	}
 }

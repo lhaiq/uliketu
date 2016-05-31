@@ -18,6 +18,6 @@ public interface WinnerService{
 	
 	public int deleteByPrimaryKey(Long id);
 	
-	public int selectCount(WinnerModel winnerModel);
+	public long selectCount(WinnerModel winnerModel);
 	
 }

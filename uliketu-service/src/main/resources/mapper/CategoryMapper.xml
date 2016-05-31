@@ -90,7 +90,7 @@
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.mall.entity.Category" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.mall.entity.Category" >
     select count(*) from mall_category
     <where >
       <if test="id != null" >

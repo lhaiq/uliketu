@@ -20,7 +20,9 @@ public interface GoodsRepository {
 
     int updateByPrimaryKey(@Param("goods") Goods goods);
 
-    int selectCount(@Param("goods") Goods goods);
+    long selectCount(@Param("goods") Goods goods);
 
     List<Goods> selectPage(@Param("goods") Goods goods, @Param("pageable") Pageable pageable);
+
+    List<Goods> selectShopping(@Param("cateGoryId") Long cateGoryId);
 }

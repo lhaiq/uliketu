@@ -22,43 +22,55 @@ import com.hengsu.uliketu.core.service.ConfService;
 import com.hengsu.uliketu.core.model.ConfModel;
 import com.hengsu.uliketu.core.vo.ConfVO;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestApiController
 @RequestMapping("/uliketu")
 public class ConfRestApiController {
 
-	private final Logger logger = LoggerFactory.getLogger(ConfRestApiController.class);
-	
-	@Autowired
-	private BeanMapper beanMapper;
-	
-	@Autowired
-	private ConfService confService;
+    private final Logger logger = LoggerFactory.getLogger(ConfRestApiController.class);
 
-	/**
-	 * 获取配置项
-	 * @param key
-	 * @return
-	 */
-	@RequestMapping(value = "/conf/{key}", method = RequestMethod.GET)
-	public ResponseEntity<ResponseEnvelope<ConfVO>> getConfById(@PathVariable String key){
-		ConfModel confModel = confService.findByPrimaryKey(key);
-		ConfVO confVO =beanMapper.map(confModel, ConfVO.class);
-		ResponseEnvelope<ConfVO> responseEnv = new ResponseEnvelope<>(confVO,true);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
+    @Autowired
+    private BeanMapper beanMapper;
 
-	/**
-	 * 修改配置文件
- 	 * @param confVO
-	 * @return
-	 */
-	@Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
-	@RequestMapping(value = "/conf", method = RequestMethod.PUT)
-	public ResponseEntity<ResponseEnvelope<String>> updateConfByPrimaryKeySelective(@RequestBody ConfVO confVO){
-		ConfModel confModel = beanMapper.map(confVO, ConfModel.class);
-		confService.updateByPrimaryKeySelective(confModel);
-		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK,true);
-		return new ResponseEntity<>(responseEnv, HttpStatus.OK);
-	}
-	
+    @Autowired
+    private ConfService confService;
+
+    /**
+     * 获取配置项
+     *
+     * @param keys
+     * @return
+     */
+    @RequestMapping(value = "/conf", method = RequestMethod.POST)
+    public ResponseEntity<ResponseEnvelope<Map<String, String>>> getConfs(@RequestBody List<String> keys) {
+        Map<String, String> map = new HashMap<>();
+        for (String key : keys) {
+            map.put(key, confService.findByPrimaryKey(key).getConfValue());
+        }
+        ResponseEnvelope<Map<String, String>> responseEnv = new ResponseEnvelope<>(map, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
+    /**
+     * 修改配置文件
+     *
+     * @param maps
+     * @return
+     */
+    @Permission(roles = {AuthModel.ROLE_ADMIN, AuthModel.ROLE_SUPER_ADMIN})
+    @RequestMapping(value = "/conf", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseEnvelope<String>> updateConfByPrimaryKey(@RequestBody Map<String,String> maps) {
+        for(Map.Entry<String,String> entry:maps.entrySet()){
+            ConfModel confModel = new ConfModel();
+            confModel.setConfKey(entry.getKey());
+            confModel.setConfValue(entry.getValue());
+            confService.updateByPrimaryKeySelective(confModel);
+        }
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(ReturnCode.OK, true);
+        return new ResponseEntity<>(responseEnv, HttpStatus.OK);
+    }
+
 }

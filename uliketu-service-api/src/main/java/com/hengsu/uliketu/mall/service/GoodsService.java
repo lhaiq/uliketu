@@ -23,7 +23,6 @@ public interface GoodsService {
 
     public void startNewShopping(Long id);
 
-
     public GoodsModel findByPrimaryKey(Long id);
 
     public int updateByPrimaryKey(GoodsModel goodsModel);
@@ -33,10 +32,13 @@ public interface GoodsService {
     public int updateGoods(GoodsModel goodsModel);
 
     public int deleteByPrimaryKey(Long id);
+
     public int deleteGoods(Long id);
 
     public long selectCount(GoodsModel goodsModel);
 
     public List<GoodsModel> selectPage(GoodsModel goodsModel, Pageable pageable);
+
+    public List<GoodsModel> selectShopping(Long cateGoryId);
 
 }

@@ -20,7 +20,7 @@ public interface ShoppingLogRepository {
 
     int updateByPrimaryKey(@Param("shoppinglog") ShoppingLog shoppinglog);
 
-    int selectCount(@Param("shoppinglog") ShoppingLog shoppinglog);
+    long selectCount(@Param("shoppinglog") ShoppingLog shoppinglog);
 
     List<ShoppingLog> selectPage(@Param("shoppinglog") ShoppingLog shoppinglog, @Param("pageable") Pageable pageable);
 }

@@ -15,9 +15,9 @@ public class User {
 
     private String avatar;
 
-    private Double balance;
+    private Long balance;
 
-    private Double blockBalance;
+    private Long blockBalance;
 
     private String idnumber;
 
@@ -27,13 +27,27 @@ public class User {
 
     private Integer certifie;
 
-    private String baifubaoAccount;
-
     private Date registerTime;
 
     private String nickname;
 
     private String randomId;
+
+    private String answer;
+
+    private String realName;
+
+    private Integer gender;
+
+    private Integer age;
+
+    private String address;
+
+    private Integer accountType;
+
+    private String accountName;
+
+    private String accountId;
 
     public Long getId() {
         return id;
@@ -83,19 +97,19 @@ public class User {
         this.avatar = avatar;
     }
 
-    public Double getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 
-    public Double getBlockBalance() {
+    public Long getBlockBalance() {
         return blockBalance;
     }
 
-    public void setBlockBalance(Double blockBalance) {
+    public void setBlockBalance(Long blockBalance) {
         this.blockBalance = blockBalance;
     }
 
@@ -131,14 +145,6 @@ public class User {
         this.certifie = certifie;
     }
 
-    public String getBaifubaoAccount() {
-        return baifubaoAccount;
-    }
-
-    public void setBaifubaoAccount(String baifubaoAccount) {
-        this.baifubaoAccount = baifubaoAccount;
-    }
-
     public Date getRegisterTime() {
         return registerTime;
     }
@@ -155,11 +161,75 @@ public class User {
         this.nickname = nickname;
     }
 
+    public String getRandomId() {
+        return randomId;
+    }
+
     public void setRandomId(String randomId) {
         this.randomId = randomId;
     }
 
-    public String getRandomId() {
-        return randomId;
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(Integer accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }

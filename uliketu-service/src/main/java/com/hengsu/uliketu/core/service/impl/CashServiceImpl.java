@@ -97,15 +97,15 @@ public class CashServiceImpl implements CashService {
         }
 
         //锁定用户的提现余额
-        userService.addBlockBalance(userModel.getId(),cashModel.getBalance());
-        userService.addBalance(userModel.getId(),cashModel.getBalance() * (-1),StatementModel.CASH,"提现锁定");
+        userService.addBlockBalance(userModel.getId(), cashModel.getBalance());
+        userService.addBalance(userModel.getId(), cashModel.getBalance() * (-1), StatementModel.CASH, "提现锁定");
 
         //配置文件
         double poundage = confService.findDouble(Consts.VIRTUAL_COIN_EXCHANGE_POUNDAGE);
         double rate = confService.findDouble(Consts.VIRTUAL_COIN_EXCHNAGE_RATE_WITH_RENMIN);
 
         //计算提现金额 取两位数字
-        double money = cashModel.getBalance() * (rate / 100) - (1 - poundage / 100);
+        double money = cashModel.getBalance() / rate - (1 - poundage / 100);
         BigDecimal b = new BigDecimal(money);
         money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
@@ -125,7 +125,7 @@ public class CashServiceImpl implements CashService {
         CashModel cashModel = findByPrimaryKey(id);
 
         //减少用户锁定余额
-        userService.addBlockBalance(cashModel.getUserid(),cashModel.getBalance() * (-1));
+        userService.addBlockBalance(cashModel.getUserid(), cashModel.getBalance() * (-1));
 
         //更新状态
         CashModel param = new CashModel();
@@ -135,7 +135,7 @@ public class CashServiceImpl implements CashService {
         updateByPrimaryKeySelective(param);
 
         //通知用户
-        messageService.addMessage(Consts.AGREE_CASH,cashModel.getUserid());
+        messageService.addMessage(Consts.AGREE_CASH, cashModel.getUserid());
 
     }
 
@@ -146,10 +146,10 @@ public class CashServiceImpl implements CashService {
         CashModel cashModel = findByPrimaryKey(id);
 
         //减少用户锁定余额
-        userService.addBlockBalance(cashModel.getUserid(),cashModel.getBalance() * (-1));
+        userService.addBlockBalance(cashModel.getUserid(), cashModel.getBalance() * (-1));
 
         //将虚拟币返回用户账户
-        userService.addBalance(cashModel.getUserid(),cashModel.getBalance(), StatementModel.CASH,"提现失败");
+        userService.addBalance(cashModel.getUserid(), cashModel.getBalance(), StatementModel.CASH, "提现失败");
 
         //更新状态
         CashModel param = new CashModel();
@@ -159,7 +159,7 @@ public class CashServiceImpl implements CashService {
         updateByPrimaryKeySelective(param);
 
         //通知用户
-        messageService.addMessage(Consts.REFUSH_CASH,cashModel.getUserid());
+        messageService.addMessage(Consts.REFUSH_CASH, cashModel.getUserid());
     }
 
     @Override
@@ -170,7 +170,7 @@ public class CashServiceImpl implements CashService {
 
     @Override
     public Map selectGroupByStatus(Date startTime, Date endTime) {
-        return cashRepo.selectGroupByStatus(startTime,endTime);
+        return cashRepo.selectGroupByStatus(startTime, endTime);
     }
 
     @Transactional

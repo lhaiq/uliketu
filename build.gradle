@@ -108,6 +108,7 @@ project("uliketu-service-api") {
 	dependencies {
 		compile(libraries.pylon_core)
 		compile(libraries.pylon_data)
+		compile("javax.mail:mail:1.4.7")
 
 	}
 }

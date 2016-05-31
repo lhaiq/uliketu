@@ -79,7 +79,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.mall.entity.Winner" >
     select count(*) from mall_winner
     <where >
       <if test="id != null" >

@@ -20,6 +20,7 @@ public enum ErrorCode {
     AUTH_TOKEN_MUST("1004", "AUTH TOKEN 必须填"),
     REGISTER_PHONE_EXISTED("1005", "该手机已经注册过"),
     LOGIN_USER_NOT_EXISTED("1006", "用户不存在"),
+    ANSWER_ERROR("1006", "答案错误"),
     LOGIN_PASSWORD_ERROR("1007", "密码错误"),
     ACCOUNT_TYPE_NOT_SUPPORTED("1007", "该类型账号不支持"),
     USERNAME_EXISTED("1007", "该用户名已经注册"),

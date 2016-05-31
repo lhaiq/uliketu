@@ -23,7 +23,7 @@ public interface ShoppingService{
 
 	public void buyGoods(Long id,Long userId);
 
-	public int selectCount(ShoppingModel shoppingModel);
+	public long selectCount(ShoppingModel shoppingModel);
 
 	public List<ShoppingModel> selectPage(ShoppingModel shoppingModel,Pageable pageable);
 

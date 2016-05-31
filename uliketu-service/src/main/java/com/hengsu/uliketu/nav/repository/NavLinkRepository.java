@@ -20,7 +20,7 @@ public interface NavLinkRepository {
 
     int updateByPrimaryKey(@Param("navlink") NavLink navlink);
 
-    int selectCount(@Param("navlink") NavLink navlink);
+    long selectCount(@Param("navlink") NavLink navlink);
 
     List<NavLink> selectPage(@Param("navlink") NavLink navlink, @Param("pageable") Pageable pageable);
 }

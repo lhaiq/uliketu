@@ -4,6 +4,7 @@ import com.hkntv.pylon.core.beans.mapping.annotation.MapClass;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
+import java.util.Map;
 
 @MapClass("com.hengsu.uliketu.core.model.UserModel")
 public class UserVO{
@@ -19,11 +20,25 @@ public class UserVO{
 	private String idphoto;
 	private Integer blackStatus;
 	private Integer certifie;
-	private String baifubaoAccount;
 	private Date registerTime;
 	private String nickname;
 	private String authCode;
 	private String randomId;
+	private Map<String,String> answers;
+
+	private String realName;
+
+	private Integer gender;
+
+	private Integer age;
+
+	private String address;
+
+	private Integer accountType;
+
+	private String accountName;
+
+	private String accountId;
 
 	public String getAuthCode() {
 		return authCode;
@@ -39,14 +54,6 @@ public class UserVO{
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-
-	public String getBaifubaoAccount() {
-		return baifubaoAccount;
-	}
-
-	public void setBaifubaoAccount(String baifubaoAccount) {
-		this.baifubaoAccount = baifubaoAccount;
 	}
 
 	public Long getBalance() {
@@ -151,5 +158,70 @@ public class UserVO{
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public Integer getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(Integer accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public void setAnswers(Map<String, String> answers) {
+		this.answers = answers;
+	}
+
+	public Map<String, String> getAnswers() {
+		return answers;
 	}
 }

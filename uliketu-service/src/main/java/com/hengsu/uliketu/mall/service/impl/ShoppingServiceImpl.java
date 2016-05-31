@@ -136,7 +136,7 @@ public class ShoppingServiceImpl implements ShoppingService {
 
     @Transactional(readOnly = true)
     @Override
-    public int selectCount(ShoppingModel shoppingModel) {
+    public long selectCount(ShoppingModel shoppingModel) {
         return shoppingRepo.selectCount(beanMapper.map(shoppingModel, Shopping.class));
     }
 

@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +53,9 @@ public class UserServiceImpl implements UserService {
     @Qualifier("identifyCodeCache")
     private Cache<String, String> identifyCodeCache;
 
+    @Autowired
+    private MailSender mailSender;
+
     @Transactional
     @Override
     public int create(UserModel userModel) {
@@ -72,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
         validateAccount(userModel.getUsername(), UserModel.ACCOUNT_TYPE_USERNAME);
         validateAccount(userModel.getMail(), UserModel.ACCOUNT_TYPE_MAIL);
-        validateAccount(userModel.getUsername(), UserModel.ACCOUNT_TYPE_PHONE);
+        validateAccount(userModel.getPhone(), UserModel.ACCOUNT_TYPE_PHONE);
 
         UserModel recommendUser = null;
         //检测推荐人是否存在
@@ -233,8 +238,12 @@ public class UserServiceImpl implements UserService {
 
         String identifyCode = RandomUtil.createRandom(true, 6);
         identifyCodeCache.put(mail, identifyCode);
-        //TODO send mail
-        System.out.println(identifyCode);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("zhume8888@126.com");
+        message.setTo(mail);
+        message.setSubject("找回密码-有利可图");
+        message.setText("您的验证码为:"+identifyCode);
+        mailSender.send(message);
     }
 
     @Transactional

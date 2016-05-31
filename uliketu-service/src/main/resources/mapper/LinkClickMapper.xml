@@ -98,7 +98,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
+    <select id="selectCount" resultType="java.lang.Long" parameterType="com.hengsu.uliketu.nav.entity.LinkClick">
         select count(*) from nav_link_click
         <where>
             <if test="id != null">

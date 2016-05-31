@@ -29,6 +29,8 @@ public class Goods {
 
     private Integer sort;
 
+    private Long remainNum;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class Goods {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public void setRemainNum(Long remainNum) {
+        this.remainNum = remainNum;
+    }
+
+    public Long getRemainNum() {
+        return remainNum;
     }
 }

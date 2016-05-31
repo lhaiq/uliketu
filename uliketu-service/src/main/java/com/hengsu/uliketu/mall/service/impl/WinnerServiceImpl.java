@@ -46,7 +46,7 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public int selectCount(WinnerModel winnerModel) {
+	public long selectCount(WinnerModel winnerModel) {
 		return winnerRepo.selectCount(beanMapper.map(winnerModel, Winner.class));
 	}
 

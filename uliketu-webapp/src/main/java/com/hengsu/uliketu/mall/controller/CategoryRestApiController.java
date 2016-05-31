@@ -108,7 +108,7 @@ public class CategoryRestApiController {
      */
     @Permission(roles = {AuthModel.ROLE_ADMIN,AuthModel.ROLE_SUPER_ADMIN})
     @RequestMapping(value = "/mall/category/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseEnvelope<Integer>> updateCategoryByPrimaryKeySelective(@PathVariable Long id, @RequestBody CategoryVO categoryVO) {
+    public ResponseEntity<ResponseEnvelope<Integer>> updateCategoryByPrimaryKey(@PathVariable Long id, @RequestBody CategoryVO categoryVO) {
         CategoryModel categoryModel = beanMapper.map(categoryVO, CategoryModel.class);
         categoryModel.setId(id);
         Integer result = categoryService.updateByPrimaryKeySelective(categoryModel);

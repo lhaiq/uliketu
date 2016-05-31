@@ -20,7 +20,7 @@ public interface CategoryRepository {
 
     int updateByPrimaryKey(@Param("category") Category category);
 
-    int selectCount(@Param("category") Category category);
+    long selectCount(@Param("category") Category category);
 
     List<Category> selectPage(@Param("category") Category category, @Param("pageable") Pageable pageable);
 

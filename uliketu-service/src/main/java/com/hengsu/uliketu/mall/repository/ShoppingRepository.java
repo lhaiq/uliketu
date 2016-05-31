@@ -22,7 +22,7 @@ public interface ShoppingRepository {
 
     int updateByPrimaryKey(@Param("shopping") Shopping shopping);
 
-    int selectCount(@Param("shopping") Shopping shopping);
+    long selectCount(@Param("shopping") Shopping shopping);
 
     int reduceRepertory(Long id);
 

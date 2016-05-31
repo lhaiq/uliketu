@@ -24,7 +24,7 @@ public interface LinkClickRepository {
 
     int updateByPrimaryKey(@Param("linkclick") LinkClick linkclick);
 
-    int selectCount(@Param("linkclick") LinkClick linkclick);
+    long selectCount(@Param("linkclick") LinkClick linkclick);
 
     List<LinkClick> selectPage(@Param("linkclick") LinkClick linkclick, @Param("pageable") Pageable pageable);
 

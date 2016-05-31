@@ -32,7 +32,7 @@ public class CacheConfig {
     @Qualifier("identifyCodeCache")
     public Cache identifyCodeCache() {
         Cache cache = CacheBuilder.newBuilder()
-                .expireAfterAccess(2, TimeUnit.MINUTES).build();
+                .expireAfterAccess(5, TimeUnit.MINUTES).build();
         return cache;
     }
 }

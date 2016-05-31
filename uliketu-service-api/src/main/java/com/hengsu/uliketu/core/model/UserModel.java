@@ -49,11 +49,25 @@ public class UserModel {
     private String idphoto;
     private Integer blackStatus;
     private Integer certifie;
-    private String baifubaoAccount;
     private Date registerTime;
     private String nickname;
     private String authCode;
     private String randomId;
+    private String answer;
+
+    private String realName;
+
+    private Integer gender;
+
+    private Integer age;
+
+    private String address;
+
+    private Integer accountType;
+
+    private String accountName;
+
+    private String accountId;
 
     public void setId(Long id) {
         this.id = id;
@@ -135,14 +149,6 @@ public class UserModel {
         return this.certifie;
     }
 
-    public void setBaifubaoAccount(String baifubaoAccount) {
-        this.baifubaoAccount = baifubaoAccount;
-    }
-
-    public String getBaifubaoAccount() {
-        return this.baifubaoAccount;
-    }
-
     public void setRegisterTime(Date registerTime) {
         this.registerTime = registerTime;
     }
@@ -173,5 +179,69 @@ public class UserModel {
 
     public String getRandomId() {
         return randomId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public Integer getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(Integer accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

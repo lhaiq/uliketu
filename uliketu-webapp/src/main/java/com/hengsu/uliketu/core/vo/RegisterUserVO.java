@@ -2,6 +2,8 @@ package com.hengsu.uliketu.core.vo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Map;
+
 /**
  * Created by haiquanli on 16/4/13.
  */
@@ -16,6 +18,8 @@ public class RegisterUserVO {
     @NotEmpty
     private String phone;
     private String randomId;
+    @NotEmpty
+    private Map<String,String> answers;
 
     public String getMail() {
         return mail;
@@ -55,5 +59,13 @@ public class RegisterUserVO {
 
     public String getRandomId() {
         return randomId;
+    }
+
+    public void setAnswers(Map<String, String> answers) {
+        this.answers = answers;
+    }
+
+    public Map<String, String> getAnswers() {
+        return answers;
     }
 }

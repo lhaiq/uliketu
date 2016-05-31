@@ -40,7 +40,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     @Override
     public int createSelective(GoodsModel goodsModel) {
-        return goodsRepo.insertSelective(beanMapper.map(goodsModel, Goods.class));
+        Goods goods = beanMapper.map(goodsModel, Goods.class);
+        int ret = goodsRepo.insertSelective(goods);
+        goodsModel.setId(goods.getId());
+        return ret;
     }
 
     @Transactional
@@ -81,7 +84,7 @@ public class GoodsServiceImpl implements GoodsService {
         ShoppingModel param = new ShoppingModel();
         param.setGoodsId(id);
         List<ShoppingModel> shoppingModels = shoppingService.selectPage(param, new PageRequest(0, Integer.MAX_VALUE));
-        if(CollectionUtils.isEmpty(shoppingModels)) return;
+        if (CollectionUtils.isEmpty(shoppingModels)) return;
         for (ShoppingModel shoppingModel : shoppingModels) {
             if (shoppingModel.getRemainNum() != 0) {
                 throwBusinessException(CANNOT_UNSHELVE);
@@ -110,7 +113,7 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsModel goodsModel = findByPrimaryKey(id);
 
         //如果处于预下架,则下架
-        if(GoodsModel.GOODS_STATUS_PRESHELVE==goodsModel.getStatus()){
+        if (GoodsModel.GOODS_STATUS_PRESHELVE == goodsModel.getStatus()) {
             unShelve(id);
             return;
         }
@@ -173,6 +176,11 @@ public class GoodsServiceImpl implements GoodsService {
     public List<GoodsModel> selectPage(GoodsModel goodsModel, Pageable pageable) {
         List<Goods> goodses = goodsRepo.selectPage(beanMapper.map(goodsModel, Goods.class), pageable);
         return beanMapper.mapAsList(goodses, GoodsModel.class);
+    }
+
+    @Override
+    public List<GoodsModel> selectShopping(Long cateGoryId) {
+        return beanMapper.mapAsList(goodsRepo.selectShopping(cateGoryId), GoodsModel.class);
     }
 
     @Transactional

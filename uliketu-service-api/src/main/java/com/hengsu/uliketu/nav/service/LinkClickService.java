@@ -22,7 +22,7 @@ public interface LinkClickService {
 
     public int deleteByPrimaryKey(Long id);
 
-    public int selectCount(LinkClickModel linkClickModel);
+    public long selectCount(LinkClickModel linkClickModel);
 
     public List<LinkClickCountModel> selectByTime(
             Date startTime,

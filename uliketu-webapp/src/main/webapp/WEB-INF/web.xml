@@ -40,8 +40,15 @@
     <filter-mapping>  
         <filter-name>encodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
-    </filter-mapping>  
-  
+    </filter-mapping>
+	<filter>
+		<filter-name>CORSFilter</filter-name>
+		<filter-class>com.hengsu.uliketu.core.interceptor.CORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CORSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
   	<filter>  
     	<filter-name>HiddenHttpMethodFilter</filter-name>  
     	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>  
